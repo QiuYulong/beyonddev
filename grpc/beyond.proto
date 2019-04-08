@@ -1,0 +1,89 @@
+syntax = "proto3";
+package grpc;
+
+/*
+this file contains the proto buffer definition to use grpc.
+to generate *.pb.go, run command in current directory if using go.
+$protoc --go_out=plugins=grpc:. *.proto
+*/
+
+service Beyond {
+    // [management rpc]
+    // create sorted map with given name.
+    rpc CreateSM(SM.Name) returns (SM.Empty) {}
+    // drop sorted map with given name.
+    rpc DropSM(SM.Name) returns (SM.Empty) {}
+    // list all sorted map.
+    rpc ListSM(SM.Empty) returns (SM.Names) {}
+
+    // [operation rpc]
+    // get length of given sorted map.
+    rpc SMLen(SM.Name) returns (SM.Length) {}
+    // put key-value into given sorted map.
+    rpc SMPut(SM.NameKeyValueReplace) returns (SM.Value) {}
+    // remove key from given sorted map.
+    rpc SMRemove(SM.NameKey) returns (SM.Value) {}
+    rpc SMTransaction(SM.NameTransaction) returns (SM.Empty) {}
+
+    // [streaming rpc]
+    rpc SMOPStream(stream SM.NameOPKeyValue) returns (SM.Empty) {}
+    rpc SMIteratorStream(SM.NameKeyReverseOffsetLimit) returns (stream SM.KeyValue) {}
+}
+
+//SortedMap messages.
+message SM {
+    // messages used for both request and response.
+    message Empty {} // empty.
+
+    // messages used for request only.
+    message Name { // map name.
+        string name = 1;
+    }
+    message NameKey { // map name and map key.
+        string name = 1;
+        bytes key = 2;
+    }
+    message NameKeyValueReplace { // map name and map key-value pair.
+        string name = 1;
+        bytes key = 2;
+        bytes value = 3;
+        bool replace = 4;
+    }
+    message NameKeyReverseOffsetLimit { // map name, key, offset, length.
+        string name = 1;
+        bytes key = 2;
+        bool reverse = 3;
+        uint64 offset = 4;
+        uint64 limit = 5;
+    }
+    message OP { // map operation.
+        bytes op = 1; // operation name.
+        bytes key = 2; // operation key.
+        bytes value = 3; // operation value.
+    }
+    message NameTransaction {
+        string name = 1;
+        repeated OP op = 2;
+    }
+    message NameOPKeyValue {
+        string name = 1; // map name.
+        bytes op = 2; // operation name.
+        bytes key = 3; // operation key.
+        bytes value = 4; // operation value.
+    }
+
+    // messages used for response only.
+    message Names { // list of map names.
+        repeated string names = 1;
+    }
+    message Length { // map length.
+        uint64 length = 1;
+    }
+    message Value { // map value.
+        bytes value = 1;
+    }
+    message KeyValue { // map key-value pair.
+        bytes key = 1;
+        bytes value = 2;
+    }
+}
