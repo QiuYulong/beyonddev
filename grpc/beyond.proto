@@ -8,13 +8,14 @@ $protoc --go_out=plugins=grpc:. *.proto
 */
 
 service Beyond {
+    // list all data structures' name & type.
+    rpc List(Empty) returns (stream NameType) {}
+
     // [management rpc]
     // create sorted map with given name.
-    rpc CreateSM(SM.Name) returns (SM.Empty) {}
+    rpc SMCreate(SM.Name) returns (Empty) {}
     // drop sorted map with given name.
-    rpc DropSM(SM.Name) returns (SM.Empty) {}
-    // list all sorted map.
-    rpc ListSM(SM.Empty) returns (SM.Names) {}
+    rpc SMDrop(SM.Name) returns (Empty) {}
 
     // [operation rpc]
     // get length of given sorted map.
@@ -23,18 +24,24 @@ service Beyond {
     rpc SMPut(SM.NameKeyValueReplace) returns (SM.Value) {}
     // remove key from given sorted map.
     rpc SMRemove(SM.NameKey) returns (SM.Value) {}
-    rpc SMTransaction(SM.NameTransaction) returns (SM.Empty) {}
+    rpc SMTransaction(SM.NameTransaction) returns (Empty) {}
 
     // [streaming rpc]
-    rpc SMOPStream(stream SM.NameOPKeyValue) returns (SM.Empty) {}
+    rpc SMOPStream(stream SM.NameOPKeyValue) returns (Empty) {}
     rpc SMIteratorStream(SM.NameKeyReverseOffsetLimit) returns (stream SM.KeyValue) {}
+}
+
+// Empty for request or response.
+message Empty {}
+
+// Name and Type tuples.
+message NameType{
+    string name = 1;
+    string type = 2;
 }
 
 //SortedMap messages.
 message SM {
-    // messages used for both request and response.
-    message Empty {} // empty.
-
     // messages used for request only.
     message Name { // map name.
         string name = 1;

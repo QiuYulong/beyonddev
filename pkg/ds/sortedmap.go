@@ -61,8 +61,8 @@ func NewSortedMap() *SortedMap {
 }
 
 // Len returns the total number of entities in SortedMap.
-func (s *SortedMap) Len() (uint64, error) {
-	return s.sl.Len(), nil
+func (s *SortedMap) Len() uint64 {
+	return s.sl.Len()
 }
 
 // Put or replace(if exists) key-value in sorted map.

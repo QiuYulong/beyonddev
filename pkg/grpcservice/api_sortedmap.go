@@ -1,4 +1,4 @@
-package grpcserver
+package grpcservice
 
 import (
 	"beyond/pkg/beyond"
@@ -11,71 +11,48 @@ import (
 	pb "beyond/grpc"
 )
 
-// CreateSM creates sorted map with given name.
-func (g *GRPCServer) CreateSM(ctx context.Context, in *pb.SM_Name) (*pb.SM_Empty, error) {
+// SMCreate creates sorted map with given name.
+func (g *GRPCService) SMCreate(ctx context.Context, in *pb.SM_Name) (*pb.Empty, error) {
 	if in.Name == "" {
-		log.Printf("CreateSM failed, name cannot be empty")
 		return nil, status.Errorf(codes.InvalidArgument, "CreateSM failed, name must not be empty")
 	}
 	err := beyond.GetInstance().CreateSortedMap(in.Name)
 	if err != nil {
 		return nil, err
 	}
-	log.Printf("CreateSM succeed, %s", in.Name)
-	return &pb.SM_Empty{}, nil // create successfully.
+	log.Printf("SMCreate succeed, %s", in.Name)
+	return &pb.Empty{}, nil // create successfully.
 }
 
-// DropSM drops sorted map with given name.
-func (g *GRPCServer) DropSM(ctx context.Context, in *pb.SM_Name) (*pb.SM_Empty, error) {
+// SMDrop drops sorted map with given name.
+func (g *GRPCService) SMDrop(ctx context.Context, in *pb.SM_Name) (*pb.Empty, error) {
 	if in.Name == "" {
-		log.Printf("DropSM failed, name must not be empty")
 		return nil, status.Errorf(codes.InvalidArgument, "DropSM failed, name must not be empty")
 	}
 	err := beyond.GetInstance().DropSortedMap(in.Name)
 	if err != nil {
-		return nil, err
+		return nil, status.Errorf(codes.Unknown, err.Error())
 	}
-	if _, ok := beyond.GetInstance().smmap[in.Name]; ok {
-		delete(beyond.GetInstance().smmap, in.Name)
-		log.Printf("DropSM succeed, '%s'", in.Name)
-		return &pb.SM_Empty{}, nil // drop successfully.
-	}
-	log.Printf("DropSM abort, '%s' not found", in.Name)
-	return nil, status.Errorf(codes.InvalidArgument, "sorted map '%s' not found in DropSM", in.Name)
-}
-
-// ListSM returns list of all sorted map names.
-func (g *GRPCServer) ListSM(ctx context.Context, in *pb.SM_Empty) (*pb.SM_Names, error) {
-	p.mutex.Lock()
-	defer p.mutex.Unlock()
-	log.Printf("ListSM request received.")
-	names := make([]string, 0, len(beyond.GetInstance().smmap))
-	for n := range beyond.GetInstance().smmap {
-		names = append(names, n)
-	}
-	log.Printf("ListSM returns %v", names)
-	return &pb.SM_Names{Names: names}, nil
+	log.Printf("SMDrop success, %s", in.Name)
+	return &pb.Empty{}, nil // drop successfully.
 }
 
 // SMLen gets length of given sorted map.
-func (g *GRPCServer) SMLen(ctx context.Context, in *pb.SM_Name) (*pb.SM_Length, error) {
+func (g *GRPCService) SMLen(ctx context.Context, in *pb.SM_Name) (*pb.SM_Length, error) {
 	log.Printf("SMLen request received. name='%s'", in.Name)
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "SMLen failed, name must not be empty")
 	}
-	if sm, ok := beyond.GetInstance().smmap[in.Name]; ok {
-		length, err := sm.Len()
-		if err == nil {
-			return &pb.SM_Length{Length: length}, nil
-		}
-		return nil, status.Errorf(codes.Unknown, "SMLen failed, %s", err.Error())
+	sm, err := beyond.GetInstance().GetSortedMap(in.Name)
+	if err != nil {
+		return nil, status.Errorf(codes.Unknown, err.Error())
 	}
-	return nil, status.Errorf(codes.InvalidArgument, "SMLen failed, sorted map '%s' not found", in.Name)
+	return &pb.SM_Length{Length: sm.Len()}, nil
 }
 
 // SMPut puts key-value into given sorted map.
 // edge case: value is nil. (so nil result means either a nil value or not exists).
-func (g *GRPCServer) SMPut(ctx context.Context, in *pb.SM_NameKeyValueReplace) (*pb.SM_Value, error) {
+func (g *GRPCService) SMPut(ctx context.Context, in *pb.SM_NameKeyValueReplace) (*pb.SM_Value, error) {
 	log.Printf("SMPut request received. name='%s'", in.Name)
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "SMPut failed, name must not be empty")
@@ -103,7 +80,7 @@ func (g *GRPCServer) SMPut(ctx context.Context, in *pb.SM_NameKeyValueReplace) (
 
 // SMRemove removes key from given sorted map.
 // edge case: value is nil. (so nil result means either a nil value or not exists).
-func (g *GRPCServer) SMRemove(ctx context.Context, in *pb.SM_NameKey) (*pb.SM_Value, error) {
+func (g *GRPCService) SMRemove(ctx context.Context, in *pb.SM_NameKey) (*pb.SM_Value, error) {
 	log.Printf("SMRemove request received. name='%s'", in.Name)
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "SMRemove failed, name must not be empty")
@@ -123,7 +100,7 @@ func (g *GRPCServer) SMRemove(ctx context.Context, in *pb.SM_NameKey) (*pb.SM_Va
 }
 
 // SMOPStream put a stream of key-value into sorted map.
-func (g *GRPCServer) SMOPStream(stream Pooh_SMOPStreamServer) error {
+func (g *GRPCService) SMOPStream(stream Pooh_SMOPStreamServer) error {
 	for {
 		nokv, err := stream.Recv()
 		if err == io.EOF {
@@ -168,7 +145,7 @@ func (g *GRPCServer) SMOPStream(stream Pooh_SMOPStreamServer) error {
 }
 
 // SMIteratorStream returns a stream of key-value with the ceil conditions.
-func (g *GRPCServer) SMIteratorStream(in *pb.SM_NameKeyReverseOffsetLimit, stream Pooh_SMIteratorStreamServer) error {
+func (g *GRPCService) SMIteratorStream(in *pb.SM_NameKeyReverseOffsetLimit, stream Pooh_SMIteratorStreamServer) error {
 	log.Printf("SMIterator request received. name='%s', key='%v', reverse='%v', offset='%v', length='%v'", in.Name, in.Key, in.Reverse, in.Offset, in.Limit)
 	if in.Name == "" {
 		return status.Errorf(codes.InvalidArgument, "SMIterator failed, name must not be empty")
@@ -197,7 +174,7 @@ func (g *GRPCServer) SMIteratorStream(in *pb.SM_NameKeyReverseOffsetLimit, strea
 }
 
 // SMTransaction do transaction of operations atomically.
-func (g *GRPCServer) SMTransaction(ctx context.Context, in *pb.SM_NameTransaction) (*pb.SM_Empty, error) {
+func (g *GRPCService) SMTransaction(ctx context.Context, in *pb.SM_NameTransaction) (*pb.SM_Empty, error) {
 	log.Printf("SMTransaction request received. name='%s'", in.Name)
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "SMTransaction failed, name must not be empty")

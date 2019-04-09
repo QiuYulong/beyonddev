@@ -22,6 +22,86 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+// Empty for request or response.
+type Empty struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Empty) Reset()         { *m = Empty{} }
+func (m *Empty) String() string { return proto.CompactTextString(m) }
+func (*Empty) ProtoMessage()    {}
+func (*Empty) Descriptor() ([]byte, []int) {
+	return fileDescriptor_01b2f43be8528e93, []int{0}
+}
+
+func (m *Empty) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Empty.Unmarshal(m, b)
+}
+func (m *Empty) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Empty.Marshal(b, m, deterministic)
+}
+func (m *Empty) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Empty.Merge(m, src)
+}
+func (m *Empty) XXX_Size() int {
+	return xxx_messageInfo_Empty.Size(m)
+}
+func (m *Empty) XXX_DiscardUnknown() {
+	xxx_messageInfo_Empty.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Empty proto.InternalMessageInfo
+
+// Name and Type tuples.
+type NameType struct {
+	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	Type                 string   `protobuf:"bytes,2,opt,name=type,proto3" json:"type,omitempty"`
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *NameType) Reset()         { *m = NameType{} }
+func (m *NameType) String() string { return proto.CompactTextString(m) }
+func (*NameType) ProtoMessage()    {}
+func (*NameType) Descriptor() ([]byte, []int) {
+	return fileDescriptor_01b2f43be8528e93, []int{1}
+}
+
+func (m *NameType) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_NameType.Unmarshal(m, b)
+}
+func (m *NameType) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_NameType.Marshal(b, m, deterministic)
+}
+func (m *NameType) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NameType.Merge(m, src)
+}
+func (m *NameType) XXX_Size() int {
+	return xxx_messageInfo_NameType.Size(m)
+}
+func (m *NameType) XXX_DiscardUnknown() {
+	xxx_messageInfo_NameType.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_NameType proto.InternalMessageInfo
+
+func (m *NameType) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *NameType) GetType() string {
+	if m != nil {
+		return m.Type
+	}
+	return ""
+}
+
 //SortedMap messages.
 type SM struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -33,7 +113,7 @@ func (m *SM) Reset()         { *m = SM{} }
 func (m *SM) String() string { return proto.CompactTextString(m) }
 func (*SM) ProtoMessage()    {}
 func (*SM) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0}
+	return fileDescriptor_01b2f43be8528e93, []int{2}
 }
 
 func (m *SM) XXX_Unmarshal(b []byte) error {
@@ -54,38 +134,6 @@ func (m *SM) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_SM proto.InternalMessageInfo
 
-// messages used for both request and response.
-type SM_Empty struct {
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *SM_Empty) Reset()         { *m = SM_Empty{} }
-func (m *SM_Empty) String() string { return proto.CompactTextString(m) }
-func (*SM_Empty) ProtoMessage()    {}
-func (*SM_Empty) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 0}
-}
-
-func (m *SM_Empty) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SM_Empty.Unmarshal(m, b)
-}
-func (m *SM_Empty) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SM_Empty.Marshal(b, m, deterministic)
-}
-func (m *SM_Empty) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SM_Empty.Merge(m, src)
-}
-func (m *SM_Empty) XXX_Size() int {
-	return xxx_messageInfo_SM_Empty.Size(m)
-}
-func (m *SM_Empty) XXX_DiscardUnknown() {
-	xxx_messageInfo_SM_Empty.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SM_Empty proto.InternalMessageInfo
-
 // messages used for request only.
 type SM_Name struct {
 	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -98,7 +146,7 @@ func (m *SM_Name) Reset()         { *m = SM_Name{} }
 func (m *SM_Name) String() string { return proto.CompactTextString(m) }
 func (*SM_Name) ProtoMessage()    {}
 func (*SM_Name) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 1}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 0}
 }
 
 func (m *SM_Name) XXX_Unmarshal(b []byte) error {
@@ -138,7 +186,7 @@ func (m *SM_NameKey) Reset()         { *m = SM_NameKey{} }
 func (m *SM_NameKey) String() string { return proto.CompactTextString(m) }
 func (*SM_NameKey) ProtoMessage()    {}
 func (*SM_NameKey) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 2}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 1}
 }
 
 func (m *SM_NameKey) XXX_Unmarshal(b []byte) error {
@@ -187,7 +235,7 @@ func (m *SM_NameKeyValueReplace) Reset()         { *m = SM_NameKeyValueReplace{}
 func (m *SM_NameKeyValueReplace) String() string { return proto.CompactTextString(m) }
 func (*SM_NameKeyValueReplace) ProtoMessage()    {}
 func (*SM_NameKeyValueReplace) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 3}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 2}
 }
 
 func (m *SM_NameKeyValueReplace) XXX_Unmarshal(b []byte) error {
@@ -251,7 +299,7 @@ func (m *SM_NameKeyReverseOffsetLimit) Reset()         { *m = SM_NameKeyReverseO
 func (m *SM_NameKeyReverseOffsetLimit) String() string { return proto.CompactTextString(m) }
 func (*SM_NameKeyReverseOffsetLimit) ProtoMessage()    {}
 func (*SM_NameKeyReverseOffsetLimit) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 4}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 3}
 }
 
 func (m *SM_NameKeyReverseOffsetLimit) XXX_Unmarshal(b []byte) error {
@@ -320,7 +368,7 @@ func (m *SM_OP) Reset()         { *m = SM_OP{} }
 func (m *SM_OP) String() string { return proto.CompactTextString(m) }
 func (*SM_OP) ProtoMessage()    {}
 func (*SM_OP) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 5}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 4}
 }
 
 func (m *SM_OP) XXX_Unmarshal(b []byte) error {
@@ -374,7 +422,7 @@ func (m *SM_NameTransaction) Reset()         { *m = SM_NameTransaction{} }
 func (m *SM_NameTransaction) String() string { return proto.CompactTextString(m) }
 func (*SM_NameTransaction) ProtoMessage()    {}
 func (*SM_NameTransaction) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 6}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 5}
 }
 
 func (m *SM_NameTransaction) XXX_Unmarshal(b []byte) error {
@@ -423,7 +471,7 @@ func (m *SM_NameOPKeyValue) Reset()         { *m = SM_NameOPKeyValue{} }
 func (m *SM_NameOPKeyValue) String() string { return proto.CompactTextString(m) }
 func (*SM_NameOPKeyValue) ProtoMessage()    {}
 func (*SM_NameOPKeyValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 7}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 6}
 }
 
 func (m *SM_NameOPKeyValue) XXX_Unmarshal(b []byte) error {
@@ -484,7 +532,7 @@ func (m *SM_Names) Reset()         { *m = SM_Names{} }
 func (m *SM_Names) String() string { return proto.CompactTextString(m) }
 func (*SM_Names) ProtoMessage()    {}
 func (*SM_Names) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 8}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 7}
 }
 
 func (m *SM_Names) XXX_Unmarshal(b []byte) error {
@@ -523,7 +571,7 @@ func (m *SM_Length) Reset()         { *m = SM_Length{} }
 func (m *SM_Length) String() string { return proto.CompactTextString(m) }
 func (*SM_Length) ProtoMessage()    {}
 func (*SM_Length) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 9}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 8}
 }
 
 func (m *SM_Length) XXX_Unmarshal(b []byte) error {
@@ -562,7 +610,7 @@ func (m *SM_Value) Reset()         { *m = SM_Value{} }
 func (m *SM_Value) String() string { return proto.CompactTextString(m) }
 func (*SM_Value) ProtoMessage()    {}
 func (*SM_Value) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 10}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 9}
 }
 
 func (m *SM_Value) XXX_Unmarshal(b []byte) error {
@@ -602,7 +650,7 @@ func (m *SM_KeyValue) Reset()         { *m = SM_KeyValue{} }
 func (m *SM_KeyValue) String() string { return proto.CompactTextString(m) }
 func (*SM_KeyValue) ProtoMessage()    {}
 func (*SM_KeyValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{0, 11}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 10}
 }
 
 func (m *SM_KeyValue) XXX_Unmarshal(b []byte) error {
@@ -638,8 +686,9 @@ func (m *SM_KeyValue) GetValue() []byte {
 }
 
 func init() {
+	proto.RegisterType((*Empty)(nil), "grpc.Empty")
+	proto.RegisterType((*NameType)(nil), "grpc.NameType")
 	proto.RegisterType((*SM)(nil), "grpc.SM")
-	proto.RegisterType((*SM_Empty)(nil), "grpc.SM.Empty")
 	proto.RegisterType((*SM_Name)(nil), "grpc.SM.Name")
 	proto.RegisterType((*SM_NameKey)(nil), "grpc.SM.NameKey")
 	proto.RegisterType((*SM_NameKeyValueReplace)(nil), "grpc.SM.NameKeyValueReplace")
@@ -656,40 +705,42 @@ func init() {
 func init() { proto.RegisterFile("beyond.proto", fileDescriptor_01b2f43be8528e93) }
 
 var fileDescriptor_01b2f43be8528e93 = []byte{
-	// 524 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0xcd, 0x6e, 0xd3, 0x4e,
-	0x10, 0x8f, 0x3f, 0x93, 0x4e, 0xd3, 0x34, 0xff, 0xfd, 0x23, 0x30, 0x0b, 0x48, 0x96, 0x4f, 0x06,
-	0xa4, 0x80, 0xc2, 0x01, 0x21, 0x38, 0x15, 0x38, 0x20, 0x62, 0x62, 0xd9, 0x88, 0x13, 0x17, 0x37,
-	0x4c, 0x4b, 0xd4, 0xf8, 0x43, 0xeb, 0x6d, 0xa4, 0x3c, 0x02, 0x4f, 0xc6, 0xa3, 0xf0, 0x1a, 0x68,
-	0xc7, 0x8e, 0x71, 0x5c, 0x1f, 0x72, 0xdb, 0xdf, 0xce, 0xfc, 0x3e, 0x76, 0x32, 0x0e, 0x8c, 0x2f,
-	0x71, 0x97, 0x67, 0x3f, 0x66, 0x85, 0xc8, 0x65, 0xce, 0xcc, 0x6b, 0x51, 0xac, 0xbc, 0xdf, 0x16,
-	0xe8, 0x71, 0xc0, 0x87, 0x60, 0x7d, 0x4c, 0x0b, 0xb9, 0xe3, 0x1c, 0xcc, 0x2f, 0x49, 0x8a, 0x8c,
-	0x81, 0x99, 0x25, 0x29, 0x3a, 0x9a, 0xab, 0xf9, 0x27, 0x11, 0x9d, 0xf9, 0x0b, 0x18, 0xaa, 0xda,
-	0x67, 0xdc, 0xf5, 0x95, 0xd9, 0x14, 0x8c, 0x1b, 0xdc, 0x39, 0xba, 0xab, 0xf9, 0xe3, 0x48, 0x1d,
-	0xf9, 0x0d, 0xfc, 0x5f, 0x13, 0xbe, 0x25, 0x9b, 0x5b, 0x8c, 0xb0, 0xd8, 0x24, 0x2b, 0x3c, 0x8e,
-	0xcc, 0xee, 0x81, 0xb5, 0x55, 0x2c, 0xc7, 0xa0, 0xbb, 0x0a, 0x30, 0x07, 0x86, 0xa2, 0x92, 0x71,
-	0x4c, 0x57, 0xf3, 0x47, 0xd1, 0x1e, 0xf2, 0x5f, 0x1a, 0x3c, 0xac, 0xdd, 0x22, 0xdc, 0xa2, 0x28,
-	0x71, 0x79, 0x75, 0x55, 0xa2, 0x5c, 0xac, 0xd3, 0xb5, 0x3c, 0xd2, 0x93, 0xd4, 0x89, 0x4b, 0xae,
-	0xa4, 0x4e, 0x90, 0xdd, 0x07, 0x3b, 0x27, 0x39, 0xb2, 0x35, 0xa3, 0x1a, 0xa9, 0x94, 0x1b, 0x65,
-	0xe0, 0x58, 0x74, 0x5d, 0x01, 0xfe, 0x0e, 0xf4, 0x65, 0xc8, 0x26, 0xa0, 0xe7, 0x05, 0x39, 0x8e,
-	0x23, 0x3d, 0x2f, 0x8e, 0x7d, 0x23, 0xbf, 0x80, 0x73, 0xf5, 0x90, 0xaf, 0x22, 0xc9, 0xca, 0x64,
-	0x25, 0xd7, 0x79, 0xd6, 0x1b, 0xff, 0x11, 0xc9, 0xeb, 0xae, 0xe1, 0x9f, 0xce, 0x4f, 0x67, 0xea,
-	0xd7, 0x9c, 0xc5, 0xc1, 0x6c, 0x19, 0x2a, 0x2f, 0xfe, 0x1d, 0x26, 0x4a, 0x63, 0x19, 0xee, 0x87,
-	0xdf, 0x2b, 0x31, 0xa9, 0x25, 0x3a, 0x09, 0x8d, 0x9e, 0x84, 0x66, 0x3b, 0xe1, 0x13, 0xb0, 0x94,
-	0x7a, 0xa9, 0xca, 0x4a, 0xa8, 0x74, 0x34, 0xd7, 0xf0, 0x4f, 0xa2, 0x0a, 0x70, 0x17, 0xec, 0x05,
-	0x66, 0xd7, 0xf2, 0xa7, 0x1a, 0xdb, 0x86, 0x4e, 0x64, 0x6b, 0x46, 0x35, 0x52, 0x02, 0x55, 0xaa,
-	0x46, 0x5f, 0x6b, 0xeb, 0xcf, 0x61, 0xd4, 0xe4, 0xae, 0x33, 0x69, 0x3d, 0x99, 0xf4, 0x16, 0x67,
-	0xfe, 0xc7, 0x00, 0xfb, 0x82, 0x16, 0x9c, 0x3d, 0x87, 0xd1, 0x7b, 0x81, 0x89, 0xc4, 0x38, 0x60,
-	0x67, 0xcd, 0x64, 0x54, 0x62, 0x3e, 0x69, 0x20, 0xed, 0xbb, 0x37, 0x60, 0x4f, 0xc1, 0xfe, 0x20,
-	0xf2, 0xe2, 0x98, 0xd6, 0x67, 0x60, 0x2f, 0xd6, 0xa5, 0x8c, 0x03, 0xd6, 0xa9, 0xb5, 0x7a, 0x69,
-	0x2e, 0x24, 0x6b, 0xc5, 0xc1, 0x02, 0xb3, 0xae, 0xea, 0x79, 0x03, 0xab, 0x11, 0x79, 0x03, 0xf6,
-	0x5a, 0xb5, 0x86, 0xb7, 0x92, 0x3d, 0x3e, 0x68, 0xed, 0x7c, 0x36, 0x2d, 0x0f, 0xba, 0xf6, 0x06,
-	0x6c, 0x06, 0xa3, 0x38, 0x88, 0x30, 0xcd, 0xb7, 0xc8, 0xa6, 0x5d, 0x6e, 0x4f, 0xff, 0x5b, 0x38,
-	0x8b, 0x83, 0xf6, 0x5a, 0x39, 0x07, 0xa4, 0x56, 0xa5, 0xe7, 0xf1, 0x6f, 0x00, 0xe2, 0x60, 0x19,
-	0xc6, 0x52, 0x60, 0x92, 0xb2, 0x07, 0x07, 0xcc, 0x7f, 0x6b, 0x76, 0x97, 0xe8, 0x6b, 0x2c, 0x80,
-	0x69, 0x1c, 0x7c, 0x92, 0x28, 0x12, 0x99, 0x8b, 0x5a, 0xc0, 0xeb, 0xe6, 0xbd, 0xfb, 0xd1, 0xf2,
-	0xff, 0x9a, 0x9e, 0xbd, 0xbc, 0x37, 0x78, 0xa9, 0x5d, 0xda, 0xf4, 0x07, 0xf6, 0xea, 0x6f, 0x00,
-	0x00, 0x00, 0xff, 0xff, 0xe3, 0xed, 0x78, 0x59, 0xd0, 0x04, 0x00, 0x00,
+	// 545 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0xcd, 0x6e, 0xd3, 0x40,
+	0x10, 0x8e, 0xff, 0xd2, 0x74, 0x9a, 0xa6, 0x61, 0x41, 0x60, 0x16, 0x90, 0x22, 0x1f, 0xc0, 0x5c,
+	0x0c, 0x0a, 0x12, 0x70, 0xe0, 0x54, 0xe0, 0x80, 0x88, 0x9b, 0xc8, 0x46, 0x9c, 0xb8, 0xb8, 0x61,
+	0x5a, 0xa2, 0xc6, 0x5e, 0x6b, 0xbd, 0x8d, 0xe4, 0x47, 0xe0, 0xa5, 0x78, 0x0e, 0x1e, 0x07, 0xed,
+	0xd8, 0x09, 0x8e, 0xb1, 0x44, 0x6e, 0xf3, 0xcd, 0xce, 0xf7, 0xcd, 0xe7, 0xd9, 0x1d, 0xc3, 0xf0,
+	0x12, 0x4b, 0x91, 0x7d, 0x0f, 0x72, 0x29, 0x94, 0x60, 0xf6, 0xb5, 0xcc, 0x97, 0xde, 0x11, 0x38,
+	0x1f, 0xd3, 0x5c, 0x95, 0xde, 0x14, 0x06, 0x17, 0x49, 0x8a, 0x5f, 0xca, 0x1c, 0x19, 0x03, 0x3b,
+	0x4b, 0x52, 0x74, 0x8d, 0x89, 0xe1, 0x1f, 0x47, 0x14, 0xeb, 0x9c, 0x2a, 0x73, 0x74, 0xcd, 0x2a,
+	0xa7, 0x63, 0xef, 0x97, 0x03, 0x66, 0x1c, 0x72, 0x0e, 0xf6, 0x45, 0x5d, 0xd2, 0xa6, 0xf1, 0x17,
+	0x70, 0xa4, 0xcf, 0x3e, 0x63, 0xd9, 0xa9, 0x3a, 0x06, 0xeb, 0x06, 0x4b, 0x12, 0x1d, 0x46, 0x3a,
+	0xe4, 0x37, 0x70, 0xb7, 0x26, 0x7c, 0x4d, 0xd6, 0xb7, 0x18, 0x61, 0xbe, 0x4e, 0x96, 0x78, 0x18,
+	0x99, 0xdd, 0x03, 0x67, 0xa3, 0x59, 0xae, 0x45, 0xb9, 0x0a, 0x30, 0x17, 0x8e, 0x64, 0x25, 0xe3,
+	0xda, 0x13, 0xc3, 0x1f, 0x44, 0x5b, 0xc8, 0x7f, 0x1a, 0xf0, 0xb0, 0xee, 0x16, 0xe1, 0x06, 0x65,
+	0x81, 0xf3, 0xab, 0xab, 0x02, 0xd5, 0x6c, 0x95, 0xae, 0xd4, 0x81, 0x3d, 0x49, 0x9d, 0xb8, 0xd4,
+	0x95, 0xd4, 0x09, 0xb2, 0xfb, 0xd0, 0x17, 0x24, 0x47, 0x6d, 0xed, 0xa8, 0x46, 0xda, 0xe5, 0x5a,
+	0x37, 0x70, 0x1d, 0x4a, 0x57, 0x80, 0xbf, 0x03, 0x73, 0xbe, 0x60, 0x23, 0x30, 0x45, 0x4e, 0x1d,
+	0x87, 0x91, 0x29, 0xf2, 0x43, 0xbf, 0x91, 0x9f, 0xc3, 0x19, 0x5d, 0x9f, 0x4c, 0xb2, 0x22, 0x59,
+	0xaa, 0x95, 0xc8, 0x3a, 0xed, 0x3f, 0x22, 0x79, 0x73, 0x62, 0xf9, 0x27, 0xd3, 0x93, 0x40, 0xbf,
+	0x80, 0x20, 0x0e, 0x83, 0xf9, 0x42, 0xf7, 0xe2, 0xdf, 0x60, 0xa4, 0x35, 0xe6, 0x8b, 0xed, 0xf0,
+	0x3b, 0x25, 0x46, 0xb5, 0x44, 0xcb, 0xa1, 0xd5, 0xe1, 0xd0, 0x6e, 0x3a, 0x7c, 0x02, 0x8e, 0x56,
+	0x2f, 0xf4, 0xb1, 0x16, 0x2a, 0x5c, 0x63, 0x62, 0xf9, 0xc7, 0x51, 0x05, 0xf8, 0x04, 0xfa, 0x33,
+	0xcc, 0xae, 0xd5, 0x0f, 0x3d, 0xb6, 0x35, 0x45, 0xd4, 0xd6, 0x8e, 0x6a, 0xa4, 0x05, 0x2a, 0x57,
+	0x3b, 0x7d, 0xa3, 0xa9, 0x3f, 0x85, 0xc1, 0xce, 0x77, 0xed, 0xc9, 0xe8, 0xf0, 0x64, 0x36, 0x38,
+	0xd3, 0xdf, 0x16, 0xf4, 0xcf, 0x69, 0x29, 0xd8, 0x33, 0xb0, 0x67, 0xab, 0x42, 0xb1, 0x7a, 0x2a,
+	0xb4, 0x14, 0x7c, 0x54, 0x81, 0xed, 0x62, 0x78, 0xbd, 0x97, 0x06, 0xf3, 0x61, 0x10, 0x87, 0xef,
+	0x25, 0x26, 0x0a, 0xd9, 0xe9, 0x6e, 0x84, 0xba, 0x84, 0x37, 0xb9, 0x5e, 0x8f, 0x3d, 0x85, 0x7e,
+	0x1c, 0x7e, 0x90, 0x22, 0xff, 0x4f, 0xdd, 0x73, 0x70, 0xe2, 0x70, 0x86, 0x59, 0xbb, 0xec, 0x6c,
+	0x07, 0xab, 0xc9, 0x78, 0x3d, 0xf6, 0x46, 0x97, 0x2e, 0x6e, 0x15, 0x7b, 0xbc, 0x57, 0xda, 0xda,
+	0x96, 0xad, 0xef, 0x38, 0x0c, 0x28, 0xed, 0xf5, 0x58, 0xa0, 0x5d, 0x47, 0x98, 0x8a, 0x0d, 0xb2,
+	0x71, 0x9b, 0xdb, 0x51, 0xff, 0x16, 0x4e, 0xe3, 0xb0, 0xf9, 0x9a, 0xdc, 0x3d, 0x52, 0xe3, 0xa4,
+	0xfd, 0x35, 0xaf, 0x01, 0xe2, 0x70, 0xbe, 0x88, 0x95, 0xc4, 0x24, 0x65, 0x0f, 0xf6, 0x68, 0x7f,
+	0x9f, 0x56, 0x8b, 0xe5, 0x1b, 0x2c, 0x84, 0x71, 0x1c, 0x7e, 0x52, 0x28, 0x13, 0x25, 0x64, 0xcd,
+	0xf6, 0xda, 0x4e, 0xff, 0xdd, 0x52, 0x7e, 0x67, 0x57, 0xb3, 0xd5, 0xd6, 0xd7, 0x74, 0xd9, 0xa7,
+	0xbf, 0xdc, 0xab, 0x3f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x96, 0xc8, 0x17, 0xd7, 0xf5, 0x04, 0x00,
+	0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -704,13 +755,13 @@ const _ = grpc.SupportPackageIsVersion4
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type BeyondClient interface {
+	// list all data structures' name & type.
+	List(ctx context.Context, in *Empty, opts ...grpc.CallOption) (Beyond_ListClient, error)
 	// [management rpc]
 	// create sorted map with given name.
-	CreateSM(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*SM_Empty, error)
+	SMCreate(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*Empty, error)
 	// drop sorted map with given name.
-	DropSM(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*SM_Empty, error)
-	// list all sorted map.
-	ListSM(ctx context.Context, in *SM_Empty, opts ...grpc.CallOption) (*SM_Names, error)
+	SMDrop(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*Empty, error)
 	// [operation rpc]
 	// get length of given sorted map.
 	SMLen(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*SM_Length, error)
@@ -718,7 +769,7 @@ type BeyondClient interface {
 	SMPut(ctx context.Context, in *SM_NameKeyValueReplace, opts ...grpc.CallOption) (*SM_Value, error)
 	// remove key from given sorted map.
 	SMRemove(ctx context.Context, in *SM_NameKey, opts ...grpc.CallOption) (*SM_Value, error)
-	SMTransaction(ctx context.Context, in *SM_NameTransaction, opts ...grpc.CallOption) (*SM_Empty, error)
+	SMTransaction(ctx context.Context, in *SM_NameTransaction, opts ...grpc.CallOption) (*Empty, error)
 	// [streaming rpc]
 	SMOPStream(ctx context.Context, opts ...grpc.CallOption) (Beyond_SMOPStreamClient, error)
 	SMIteratorStream(ctx context.Context, in *SM_NameKeyReverseOffsetLimit, opts ...grpc.CallOption) (Beyond_SMIteratorStreamClient, error)
@@ -732,27 +783,50 @@ func NewBeyondClient(cc *grpc.ClientConn) BeyondClient {
 	return &beyondClient{cc}
 }
 
-func (c *beyondClient) CreateSM(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*SM_Empty, error) {
-	out := new(SM_Empty)
-	err := c.cc.Invoke(ctx, "/grpc.Beyond/CreateSM", in, out, opts...)
+func (c *beyondClient) List(ctx context.Context, in *Empty, opts ...grpc.CallOption) (Beyond_ListClient, error) {
+	stream, err := c.cc.NewStream(ctx, &_Beyond_serviceDesc.Streams[0], "/grpc.Beyond/List", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &beyondListClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Beyond_ListClient interface {
+	Recv() (*NameType, error)
+	grpc.ClientStream
+}
+
+type beyondListClient struct {
+	grpc.ClientStream
+}
+
+func (x *beyondListClient) Recv() (*NameType, error) {
+	m := new(NameType)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *beyondClient) SMCreate(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/grpc.Beyond/SMCreate", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *beyondClient) DropSM(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*SM_Empty, error) {
-	out := new(SM_Empty)
-	err := c.cc.Invoke(ctx, "/grpc.Beyond/DropSM", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *beyondClient) ListSM(ctx context.Context, in *SM_Empty, opts ...grpc.CallOption) (*SM_Names, error) {
-	out := new(SM_Names)
-	err := c.cc.Invoke(ctx, "/grpc.Beyond/ListSM", in, out, opts...)
+func (c *beyondClient) SMDrop(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/grpc.Beyond/SMDrop", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -786,8 +860,8 @@ func (c *beyondClient) SMRemove(ctx context.Context, in *SM_NameKey, opts ...grp
 	return out, nil
 }
 
-func (c *beyondClient) SMTransaction(ctx context.Context, in *SM_NameTransaction, opts ...grpc.CallOption) (*SM_Empty, error) {
-	out := new(SM_Empty)
+func (c *beyondClient) SMTransaction(ctx context.Context, in *SM_NameTransaction, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/grpc.Beyond/SMTransaction", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -796,7 +870,7 @@ func (c *beyondClient) SMTransaction(ctx context.Context, in *SM_NameTransaction
 }
 
 func (c *beyondClient) SMOPStream(ctx context.Context, opts ...grpc.CallOption) (Beyond_SMOPStreamClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Beyond_serviceDesc.Streams[0], "/grpc.Beyond/SMOPStream", opts...)
+	stream, err := c.cc.NewStream(ctx, &_Beyond_serviceDesc.Streams[1], "/grpc.Beyond/SMOPStream", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -806,7 +880,7 @@ func (c *beyondClient) SMOPStream(ctx context.Context, opts ...grpc.CallOption) 
 
 type Beyond_SMOPStreamClient interface {
 	Send(*SM_NameOPKeyValue) error
-	CloseAndRecv() (*SM_Empty, error)
+	CloseAndRecv() (*Empty, error)
 	grpc.ClientStream
 }
 
@@ -818,11 +892,11 @@ func (x *beyondSMOPStreamClient) Send(m *SM_NameOPKeyValue) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *beyondSMOPStreamClient) CloseAndRecv() (*SM_Empty, error) {
+func (x *beyondSMOPStreamClient) CloseAndRecv() (*Empty, error) {
 	if err := x.ClientStream.CloseSend(); err != nil {
 		return nil, err
 	}
-	m := new(SM_Empty)
+	m := new(Empty)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
 	}
@@ -830,7 +904,7 @@ func (x *beyondSMOPStreamClient) CloseAndRecv() (*SM_Empty, error) {
 }
 
 func (c *beyondClient) SMIteratorStream(ctx context.Context, in *SM_NameKeyReverseOffsetLimit, opts ...grpc.CallOption) (Beyond_SMIteratorStreamClient, error) {
-	stream, err := c.cc.NewStream(ctx, &_Beyond_serviceDesc.Streams[1], "/grpc.Beyond/SMIteratorStream", opts...)
+	stream, err := c.cc.NewStream(ctx, &_Beyond_serviceDesc.Streams[2], "/grpc.Beyond/SMIteratorStream", opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -863,13 +937,13 @@ func (x *beyondSMIteratorStreamClient) Recv() (*SM_KeyValue, error) {
 
 // BeyondServer is the server API for Beyond service.
 type BeyondServer interface {
+	// list all data structures' name & type.
+	List(*Empty, Beyond_ListServer) error
 	// [management rpc]
 	// create sorted map with given name.
-	CreateSM(context.Context, *SM_Name) (*SM_Empty, error)
+	SMCreate(context.Context, *SM_Name) (*Empty, error)
 	// drop sorted map with given name.
-	DropSM(context.Context, *SM_Name) (*SM_Empty, error)
-	// list all sorted map.
-	ListSM(context.Context, *SM_Empty) (*SM_Names, error)
+	SMDrop(context.Context, *SM_Name) (*Empty, error)
 	// [operation rpc]
 	// get length of given sorted map.
 	SMLen(context.Context, *SM_Name) (*SM_Length, error)
@@ -877,7 +951,7 @@ type BeyondServer interface {
 	SMPut(context.Context, *SM_NameKeyValueReplace) (*SM_Value, error)
 	// remove key from given sorted map.
 	SMRemove(context.Context, *SM_NameKey) (*SM_Value, error)
-	SMTransaction(context.Context, *SM_NameTransaction) (*SM_Empty, error)
+	SMTransaction(context.Context, *SM_NameTransaction) (*Empty, error)
 	// [streaming rpc]
 	SMOPStream(Beyond_SMOPStreamServer) error
 	SMIteratorStream(*SM_NameKeyReverseOffsetLimit, Beyond_SMIteratorStreamServer) error
@@ -887,56 +961,59 @@ func RegisterBeyondServer(s *grpc.Server, srv BeyondServer) {
 	s.RegisterService(&_Beyond_serviceDesc, srv)
 }
 
-func _Beyond_CreateSM_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Beyond_List_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(Empty)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(BeyondServer).List(m, &beyondListServer{stream})
+}
+
+type Beyond_ListServer interface {
+	Send(*NameType) error
+	grpc.ServerStream
+}
+
+type beyondListServer struct {
+	grpc.ServerStream
+}
+
+func (x *beyondListServer) Send(m *NameType) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _Beyond_SMCreate_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SM_Name)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BeyondServer).CreateSM(ctx, in)
+		return srv.(BeyondServer).SMCreate(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpc.Beyond/CreateSM",
+		FullMethod: "/grpc.Beyond/SMCreate",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BeyondServer).CreateSM(ctx, req.(*SM_Name))
+		return srv.(BeyondServer).SMCreate(ctx, req.(*SM_Name))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Beyond_DropSM_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Beyond_SMDrop_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SM_Name)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(BeyondServer).DropSM(ctx, in)
+		return srv.(BeyondServer).SMDrop(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/grpc.Beyond/DropSM",
+		FullMethod: "/grpc.Beyond/SMDrop",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BeyondServer).DropSM(ctx, req.(*SM_Name))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Beyond_ListSM_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SM_Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(BeyondServer).ListSM(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/grpc.Beyond/ListSM",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BeyondServer).ListSM(ctx, req.(*SM_Empty))
+		return srv.(BeyondServer).SMDrop(ctx, req.(*SM_Name))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1018,7 +1095,7 @@ func _Beyond_SMOPStream_Handler(srv interface{}, stream grpc.ServerStream) error
 }
 
 type Beyond_SMOPStreamServer interface {
-	SendAndClose(*SM_Empty) error
+	SendAndClose(*Empty) error
 	Recv() (*SM_NameOPKeyValue, error)
 	grpc.ServerStream
 }
@@ -1027,7 +1104,7 @@ type beyondSMOPStreamServer struct {
 	grpc.ServerStream
 }
 
-func (x *beyondSMOPStreamServer) SendAndClose(m *SM_Empty) error {
+func (x *beyondSMOPStreamServer) SendAndClose(m *Empty) error {
 	return x.ServerStream.SendMsg(m)
 }
 
@@ -1065,16 +1142,12 @@ var _Beyond_serviceDesc = grpc.ServiceDesc{
 	HandlerType: (*BeyondServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "CreateSM",
-			Handler:    _Beyond_CreateSM_Handler,
+			MethodName: "SMCreate",
+			Handler:    _Beyond_SMCreate_Handler,
 		},
 		{
-			MethodName: "DropSM",
-			Handler:    _Beyond_DropSM_Handler,
-		},
-		{
-			MethodName: "ListSM",
-			Handler:    _Beyond_ListSM_Handler,
+			MethodName: "SMDrop",
+			Handler:    _Beyond_SMDrop_Handler,
 		},
 		{
 			MethodName: "SMLen",
@@ -1094,6 +1167,11 @@ var _Beyond_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "List",
+			Handler:       _Beyond_List_Handler,
+			ServerStreams: true,
+		},
 		{
 			StreamName:    "SMOPStream",
 			Handler:       _Beyond_SMOPStream_Handler,
