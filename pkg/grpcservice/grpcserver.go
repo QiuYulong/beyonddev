@@ -3,7 +3,6 @@ package grpcservice
 // gRPC server.
 
 import (
-	"beyond/pkg/beyond"
 	"google.golang.org/grpc"
 	"log"
 	"net"

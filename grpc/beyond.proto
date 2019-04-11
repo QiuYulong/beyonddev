@@ -11,24 +11,22 @@ service Beyond {
     // list all data structures' name & type.
     rpc List(Empty) returns (stream NameType) {}
 
-    // [management rpc]
+    // [sorted map]
     // create sorted map with given name.
     rpc SMCreate(SM.Name) returns (Empty) {}
     // drop sorted map with given name.
     rpc SMDrop(SM.Name) returns (Empty) {}
-
-    // [operation rpc]
     // get length of given sorted map.
     rpc SMLen(SM.Name) returns (SM.Length) {}
     // put key-value into given sorted map.
-    rpc SMPut(SM.NameKeyValueReplace) returns (SM.Value) {}
+    rpc SMPut(SM.NameKeyValue) returns (Empty) {}
     // remove key from given sorted map.
-    rpc SMRemove(SM.NameKey) returns (SM.Value) {}
+    rpc SMRemove(SM.NameKey) returns (Empty) {}
     rpc SMTransaction(SM.NameTransaction) returns (Empty) {}
 
     // [streaming rpc]
     rpc SMOPStream(stream SM.NameOPKeyValue) returns (Empty) {}
-    rpc SMIteratorStream(SM.NameKeyReverseOffsetLimit) returns (stream SM.KeyValue) {}
+    rpc SMIteratorStream(SM.NameKeyForwardOffsetLimit) returns (stream SM.KeyValue) {}
 }
 
 // Empty for request or response.
@@ -42,7 +40,7 @@ message NameType{
 
 //SortedMap messages.
 message SM {
-    // messages used for request only.
+    // messages used for request.
     message Name { // map name.
         string name = 1;
     }
@@ -50,16 +48,15 @@ message SM {
         string name = 1;
         bytes key = 2;
     }
-    message NameKeyValueReplace { // map name and map key-value pair.
+    message NameKeyValue { // map name and map key-value pair.
         string name = 1;
         bytes key = 2;
         bytes value = 3;
-        bool replace = 4;
     }
-    message NameKeyReverseOffsetLimit { // map name, key, offset, length.
+    message NameKeyForwardOffsetLimit { // map name, key, offset, length.
         string name = 1;
         bytes key = 2;
-        bool reverse = 3;
+        bool forward = 3;
         uint64 offset = 4;
         uint64 limit = 5;
     }
@@ -78,16 +75,9 @@ message SM {
         bytes key = 3; // operation key.
         bytes value = 4; // operation value.
     }
-
-    // messages used for response only.
-    message Names { // list of map names.
-        repeated string names = 1;
-    }
+    // messages used for response.
     message Length { // map length.
         uint64 length = 1;
-    }
-    message Value { // map value.
-        bytes value = 1;
     }
     message KeyValue { // map key-value pair.
         bytes key = 1;

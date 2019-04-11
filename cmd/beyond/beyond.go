@@ -25,15 +25,16 @@ func main() {
 	log.Println("hello, beyond stars")
 	
 	var wg sync.WaitGroup
-	wg.Add(2)
 
 	// start grpc service.
+	wg.Add(1)
 	gs := grpcserver.NewGRPCService(":"+strconv.Itoa(*grpcport))
-	go gs.Run(wg *sync.WaitGroup)
+	go gs.Run(&wg)
 	
 	// start rest server.
+	wg.Add(1)
 	rs := restapiserver.NewRESTAPIService(":"+strconv.Itoa(*restport))
-	go rs.Run(wg *sync.WaitGroup)
+	go rs.Run(&wg)
 	
 	// wait grpc and restapi service exit.
 	wg.Wait()

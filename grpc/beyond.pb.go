@@ -134,7 +134,7 @@ func (m *SM) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_SM proto.InternalMessageInfo
 
-// messages used for request only.
+// messages used for request.
 type SM_Name struct {
 	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -221,73 +221,65 @@ func (m *SM_NameKey) GetKey() []byte {
 	return nil
 }
 
-type SM_NameKeyValueReplace struct {
+type SM_NameKeyValue struct {
 	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Key                  []byte   `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
 	Value                []byte   `protobuf:"bytes,3,opt,name=value,proto3" json:"value,omitempty"`
-	Replace              bool     `protobuf:"varint,4,opt,name=replace,proto3" json:"replace,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *SM_NameKeyValueReplace) Reset()         { *m = SM_NameKeyValueReplace{} }
-func (m *SM_NameKeyValueReplace) String() string { return proto.CompactTextString(m) }
-func (*SM_NameKeyValueReplace) ProtoMessage()    {}
-func (*SM_NameKeyValueReplace) Descriptor() ([]byte, []int) {
+func (m *SM_NameKeyValue) Reset()         { *m = SM_NameKeyValue{} }
+func (m *SM_NameKeyValue) String() string { return proto.CompactTextString(m) }
+func (*SM_NameKeyValue) ProtoMessage()    {}
+func (*SM_NameKeyValue) Descriptor() ([]byte, []int) {
 	return fileDescriptor_01b2f43be8528e93, []int{2, 2}
 }
 
-func (m *SM_NameKeyValueReplace) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SM_NameKeyValueReplace.Unmarshal(m, b)
+func (m *SM_NameKeyValue) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SM_NameKeyValue.Unmarshal(m, b)
 }
-func (m *SM_NameKeyValueReplace) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SM_NameKeyValueReplace.Marshal(b, m, deterministic)
+func (m *SM_NameKeyValue) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SM_NameKeyValue.Marshal(b, m, deterministic)
 }
-func (m *SM_NameKeyValueReplace) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SM_NameKeyValueReplace.Merge(m, src)
+func (m *SM_NameKeyValue) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SM_NameKeyValue.Merge(m, src)
 }
-func (m *SM_NameKeyValueReplace) XXX_Size() int {
-	return xxx_messageInfo_SM_NameKeyValueReplace.Size(m)
+func (m *SM_NameKeyValue) XXX_Size() int {
+	return xxx_messageInfo_SM_NameKeyValue.Size(m)
 }
-func (m *SM_NameKeyValueReplace) XXX_DiscardUnknown() {
-	xxx_messageInfo_SM_NameKeyValueReplace.DiscardUnknown(m)
+func (m *SM_NameKeyValue) XXX_DiscardUnknown() {
+	xxx_messageInfo_SM_NameKeyValue.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_SM_NameKeyValueReplace proto.InternalMessageInfo
+var xxx_messageInfo_SM_NameKeyValue proto.InternalMessageInfo
 
-func (m *SM_NameKeyValueReplace) GetName() string {
+func (m *SM_NameKeyValue) GetName() string {
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 
-func (m *SM_NameKeyValueReplace) GetKey() []byte {
+func (m *SM_NameKeyValue) GetKey() []byte {
 	if m != nil {
 		return m.Key
 	}
 	return nil
 }
 
-func (m *SM_NameKeyValueReplace) GetValue() []byte {
+func (m *SM_NameKeyValue) GetValue() []byte {
 	if m != nil {
 		return m.Value
 	}
 	return nil
 }
 
-func (m *SM_NameKeyValueReplace) GetReplace() bool {
-	if m != nil {
-		return m.Replace
-	}
-	return false
-}
-
-type SM_NameKeyReverseOffsetLimit struct {
+type SM_NameKeyForwardOffsetLimit struct {
 	Name                 string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
 	Key                  []byte   `protobuf:"bytes,2,opt,name=key,proto3" json:"key,omitempty"`
-	Reverse              bool     `protobuf:"varint,3,opt,name=reverse,proto3" json:"reverse,omitempty"`
+	Forward              bool     `protobuf:"varint,3,opt,name=forward,proto3" json:"forward,omitempty"`
 	Offset               uint64   `protobuf:"varint,4,opt,name=offset,proto3" json:"offset,omitempty"`
 	Limit                uint64   `protobuf:"varint,5,opt,name=limit,proto3" json:"limit,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -295,60 +287,60 @@ type SM_NameKeyReverseOffsetLimit struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *SM_NameKeyReverseOffsetLimit) Reset()         { *m = SM_NameKeyReverseOffsetLimit{} }
-func (m *SM_NameKeyReverseOffsetLimit) String() string { return proto.CompactTextString(m) }
-func (*SM_NameKeyReverseOffsetLimit) ProtoMessage()    {}
-func (*SM_NameKeyReverseOffsetLimit) Descriptor() ([]byte, []int) {
+func (m *SM_NameKeyForwardOffsetLimit) Reset()         { *m = SM_NameKeyForwardOffsetLimit{} }
+func (m *SM_NameKeyForwardOffsetLimit) String() string { return proto.CompactTextString(m) }
+func (*SM_NameKeyForwardOffsetLimit) ProtoMessage()    {}
+func (*SM_NameKeyForwardOffsetLimit) Descriptor() ([]byte, []int) {
 	return fileDescriptor_01b2f43be8528e93, []int{2, 3}
 }
 
-func (m *SM_NameKeyReverseOffsetLimit) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SM_NameKeyReverseOffsetLimit.Unmarshal(m, b)
+func (m *SM_NameKeyForwardOffsetLimit) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_SM_NameKeyForwardOffsetLimit.Unmarshal(m, b)
 }
-func (m *SM_NameKeyReverseOffsetLimit) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SM_NameKeyReverseOffsetLimit.Marshal(b, m, deterministic)
+func (m *SM_NameKeyForwardOffsetLimit) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_SM_NameKeyForwardOffsetLimit.Marshal(b, m, deterministic)
 }
-func (m *SM_NameKeyReverseOffsetLimit) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SM_NameKeyReverseOffsetLimit.Merge(m, src)
+func (m *SM_NameKeyForwardOffsetLimit) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SM_NameKeyForwardOffsetLimit.Merge(m, src)
 }
-func (m *SM_NameKeyReverseOffsetLimit) XXX_Size() int {
-	return xxx_messageInfo_SM_NameKeyReverseOffsetLimit.Size(m)
+func (m *SM_NameKeyForwardOffsetLimit) XXX_Size() int {
+	return xxx_messageInfo_SM_NameKeyForwardOffsetLimit.Size(m)
 }
-func (m *SM_NameKeyReverseOffsetLimit) XXX_DiscardUnknown() {
-	xxx_messageInfo_SM_NameKeyReverseOffsetLimit.DiscardUnknown(m)
+func (m *SM_NameKeyForwardOffsetLimit) XXX_DiscardUnknown() {
+	xxx_messageInfo_SM_NameKeyForwardOffsetLimit.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_SM_NameKeyReverseOffsetLimit proto.InternalMessageInfo
+var xxx_messageInfo_SM_NameKeyForwardOffsetLimit proto.InternalMessageInfo
 
-func (m *SM_NameKeyReverseOffsetLimit) GetName() string {
+func (m *SM_NameKeyForwardOffsetLimit) GetName() string {
 	if m != nil {
 		return m.Name
 	}
 	return ""
 }
 
-func (m *SM_NameKeyReverseOffsetLimit) GetKey() []byte {
+func (m *SM_NameKeyForwardOffsetLimit) GetKey() []byte {
 	if m != nil {
 		return m.Key
 	}
 	return nil
 }
 
-func (m *SM_NameKeyReverseOffsetLimit) GetReverse() bool {
+func (m *SM_NameKeyForwardOffsetLimit) GetForward() bool {
 	if m != nil {
-		return m.Reverse
+		return m.Forward
 	}
 	return false
 }
 
-func (m *SM_NameKeyReverseOffsetLimit) GetOffset() uint64 {
+func (m *SM_NameKeyForwardOffsetLimit) GetOffset() uint64 {
 	if m != nil {
 		return m.Offset
 	}
 	return 0
 }
 
-func (m *SM_NameKeyReverseOffsetLimit) GetLimit() uint64 {
+func (m *SM_NameKeyForwardOffsetLimit) GetLimit() uint64 {
 	if m != nil {
 		return m.Limit
 	}
@@ -520,46 +512,7 @@ func (m *SM_NameOPKeyValue) GetValue() []byte {
 	return nil
 }
 
-// messages used for response only.
-type SM_Names struct {
-	Names                []string `protobuf:"bytes,1,rep,name=names,proto3" json:"names,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *SM_Names) Reset()         { *m = SM_Names{} }
-func (m *SM_Names) String() string { return proto.CompactTextString(m) }
-func (*SM_Names) ProtoMessage()    {}
-func (*SM_Names) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{2, 7}
-}
-
-func (m *SM_Names) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SM_Names.Unmarshal(m, b)
-}
-func (m *SM_Names) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SM_Names.Marshal(b, m, deterministic)
-}
-func (m *SM_Names) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SM_Names.Merge(m, src)
-}
-func (m *SM_Names) XXX_Size() int {
-	return xxx_messageInfo_SM_Names.Size(m)
-}
-func (m *SM_Names) XXX_DiscardUnknown() {
-	xxx_messageInfo_SM_Names.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SM_Names proto.InternalMessageInfo
-
-func (m *SM_Names) GetNames() []string {
-	if m != nil {
-		return m.Names
-	}
-	return nil
-}
-
+// messages used for response.
 type SM_Length struct {
 	Length               uint64   `protobuf:"varint,1,opt,name=length,proto3" json:"length,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -571,7 +524,7 @@ func (m *SM_Length) Reset()         { *m = SM_Length{} }
 func (m *SM_Length) String() string { return proto.CompactTextString(m) }
 func (*SM_Length) ProtoMessage()    {}
 func (*SM_Length) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{2, 8}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 7}
 }
 
 func (m *SM_Length) XXX_Unmarshal(b []byte) error {
@@ -599,45 +552,6 @@ func (m *SM_Length) GetLength() uint64 {
 	return 0
 }
 
-type SM_Value struct {
-	Value                []byte   `protobuf:"bytes,1,opt,name=value,proto3" json:"value,omitempty"`
-	XXX_NoUnkeyedLiteral struct{} `json:"-"`
-	XXX_unrecognized     []byte   `json:"-"`
-	XXX_sizecache        int32    `json:"-"`
-}
-
-func (m *SM_Value) Reset()         { *m = SM_Value{} }
-func (m *SM_Value) String() string { return proto.CompactTextString(m) }
-func (*SM_Value) ProtoMessage()    {}
-func (*SM_Value) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{2, 9}
-}
-
-func (m *SM_Value) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_SM_Value.Unmarshal(m, b)
-}
-func (m *SM_Value) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_SM_Value.Marshal(b, m, deterministic)
-}
-func (m *SM_Value) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_SM_Value.Merge(m, src)
-}
-func (m *SM_Value) XXX_Size() int {
-	return xxx_messageInfo_SM_Value.Size(m)
-}
-func (m *SM_Value) XXX_DiscardUnknown() {
-	xxx_messageInfo_SM_Value.DiscardUnknown(m)
-}
-
-var xxx_messageInfo_SM_Value proto.InternalMessageInfo
-
-func (m *SM_Value) GetValue() []byte {
-	if m != nil {
-		return m.Value
-	}
-	return nil
-}
-
 type SM_KeyValue struct {
 	Key                  []byte   `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
 	Value                []byte   `protobuf:"bytes,2,opt,name=value,proto3" json:"value,omitempty"`
@@ -650,7 +564,7 @@ func (m *SM_KeyValue) Reset()         { *m = SM_KeyValue{} }
 func (m *SM_KeyValue) String() string { return proto.CompactTextString(m) }
 func (*SM_KeyValue) ProtoMessage()    {}
 func (*SM_KeyValue) Descriptor() ([]byte, []int) {
-	return fileDescriptor_01b2f43be8528e93, []int{2, 10}
+	return fileDescriptor_01b2f43be8528e93, []int{2, 8}
 }
 
 func (m *SM_KeyValue) XXX_Unmarshal(b []byte) error {
@@ -691,56 +605,51 @@ func init() {
 	proto.RegisterType((*SM)(nil), "grpc.SM")
 	proto.RegisterType((*SM_Name)(nil), "grpc.SM.Name")
 	proto.RegisterType((*SM_NameKey)(nil), "grpc.SM.NameKey")
-	proto.RegisterType((*SM_NameKeyValueReplace)(nil), "grpc.SM.NameKeyValueReplace")
-	proto.RegisterType((*SM_NameKeyReverseOffsetLimit)(nil), "grpc.SM.NameKeyReverseOffsetLimit")
+	proto.RegisterType((*SM_NameKeyValue)(nil), "grpc.SM.NameKeyValue")
+	proto.RegisterType((*SM_NameKeyForwardOffsetLimit)(nil), "grpc.SM.NameKeyForwardOffsetLimit")
 	proto.RegisterType((*SM_OP)(nil), "grpc.SM.OP")
 	proto.RegisterType((*SM_NameTransaction)(nil), "grpc.SM.NameTransaction")
 	proto.RegisterType((*SM_NameOPKeyValue)(nil), "grpc.SM.NameOPKeyValue")
-	proto.RegisterType((*SM_Names)(nil), "grpc.SM.Names")
 	proto.RegisterType((*SM_Length)(nil), "grpc.SM.Length")
-	proto.RegisterType((*SM_Value)(nil), "grpc.SM.Value")
 	proto.RegisterType((*SM_KeyValue)(nil), "grpc.SM.KeyValue")
 }
 
 func init() { proto.RegisterFile("beyond.proto", fileDescriptor_01b2f43be8528e93) }
 
 var fileDescriptor_01b2f43be8528e93 = []byte{
-	// 545 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x54, 0xcd, 0x6e, 0xd3, 0x40,
-	0x10, 0x8e, 0xff, 0xd2, 0x74, 0x9a, 0xa6, 0x61, 0x41, 0x60, 0x16, 0x90, 0x22, 0x1f, 0xc0, 0x5c,
-	0x0c, 0x0a, 0x12, 0x70, 0xe0, 0x54, 0xe0, 0x80, 0x88, 0x9b, 0xc8, 0x46, 0x9c, 0xb8, 0xb8, 0x61,
-	0x5a, 0xa2, 0xc6, 0x5e, 0x6b, 0xbd, 0x8d, 0xe4, 0x47, 0xe0, 0xa5, 0x78, 0x0e, 0x1e, 0x07, 0xed,
-	0xd8, 0x09, 0x8e, 0xb1, 0x44, 0x6e, 0xf3, 0xcd, 0xce, 0xf7, 0xcd, 0xe7, 0xd9, 0x1d, 0xc3, 0xf0,
-	0x12, 0x4b, 0x91, 0x7d, 0x0f, 0x72, 0x29, 0x94, 0x60, 0xf6, 0xb5, 0xcc, 0x97, 0xde, 0x11, 0x38,
-	0x1f, 0xd3, 0x5c, 0x95, 0xde, 0x14, 0x06, 0x17, 0x49, 0x8a, 0x5f, 0xca, 0x1c, 0x19, 0x03, 0x3b,
-	0x4b, 0x52, 0x74, 0x8d, 0x89, 0xe1, 0x1f, 0x47, 0x14, 0xeb, 0x9c, 0x2a, 0x73, 0x74, 0xcd, 0x2a,
-	0xa7, 0x63, 0xef, 0x97, 0x03, 0x66, 0x1c, 0x72, 0x0e, 0xf6, 0x45, 0x5d, 0xd2, 0xa6, 0xf1, 0x17,
-	0x70, 0xa4, 0xcf, 0x3e, 0x63, 0xd9, 0xa9, 0x3a, 0x06, 0xeb, 0x06, 0x4b, 0x12, 0x1d, 0x46, 0x3a,
-	0xe4, 0x37, 0x70, 0xb7, 0x26, 0x7c, 0x4d, 0xd6, 0xb7, 0x18, 0x61, 0xbe, 0x4e, 0x96, 0x78, 0x18,
-	0x99, 0xdd, 0x03, 0x67, 0xa3, 0x59, 0xae, 0x45, 0xb9, 0x0a, 0x30, 0x17, 0x8e, 0x64, 0x25, 0xe3,
-	0xda, 0x13, 0xc3, 0x1f, 0x44, 0x5b, 0xc8, 0x7f, 0x1a, 0xf0, 0xb0, 0xee, 0x16, 0xe1, 0x06, 0x65,
-	0x81, 0xf3, 0xab, 0xab, 0x02, 0xd5, 0x6c, 0x95, 0xae, 0xd4, 0x81, 0x3d, 0x49, 0x9d, 0xb8, 0xd4,
-	0x95, 0xd4, 0x09, 0xb2, 0xfb, 0xd0, 0x17, 0x24, 0x47, 0x6d, 0xed, 0xa8, 0x46, 0xda, 0xe5, 0x5a,
-	0x37, 0x70, 0x1d, 0x4a, 0x57, 0x80, 0xbf, 0x03, 0x73, 0xbe, 0x60, 0x23, 0x30, 0x45, 0x4e, 0x1d,
-	0x87, 0x91, 0x29, 0xf2, 0x43, 0xbf, 0x91, 0x9f, 0xc3, 0x19, 0x5d, 0x9f, 0x4c, 0xb2, 0x22, 0x59,
-	0xaa, 0x95, 0xc8, 0x3a, 0xed, 0x3f, 0x22, 0x79, 0x73, 0x62, 0xf9, 0x27, 0xd3, 0x93, 0x40, 0xbf,
-	0x80, 0x20, 0x0e, 0x83, 0xf9, 0x42, 0xf7, 0xe2, 0xdf, 0x60, 0xa4, 0x35, 0xe6, 0x8b, 0xed, 0xf0,
-	0x3b, 0x25, 0x46, 0xb5, 0x44, 0xcb, 0xa1, 0xd5, 0xe1, 0xd0, 0x6e, 0x3a, 0x7c, 0x02, 0x8e, 0x56,
-	0x2f, 0xf4, 0xb1, 0x16, 0x2a, 0x5c, 0x63, 0x62, 0xf9, 0xc7, 0x51, 0x05, 0xf8, 0x04, 0xfa, 0x33,
-	0xcc, 0xae, 0xd5, 0x0f, 0x3d, 0xb6, 0x35, 0x45, 0xd4, 0xd6, 0x8e, 0x6a, 0xa4, 0x05, 0x2a, 0x57,
-	0x3b, 0x7d, 0xa3, 0xa9, 0x3f, 0x85, 0xc1, 0xce, 0x77, 0xed, 0xc9, 0xe8, 0xf0, 0x64, 0x36, 0x38,
-	0xd3, 0xdf, 0x16, 0xf4, 0xcf, 0x69, 0x29, 0xd8, 0x33, 0xb0, 0x67, 0xab, 0x42, 0xb1, 0x7a, 0x2a,
-	0xb4, 0x14, 0x7c, 0x54, 0x81, 0xed, 0x62, 0x78, 0xbd, 0x97, 0x06, 0xf3, 0x61, 0x10, 0x87, 0xef,
-	0x25, 0x26, 0x0a, 0xd9, 0xe9, 0x6e, 0x84, 0xba, 0x84, 0x37, 0xb9, 0x5e, 0x8f, 0x3d, 0x85, 0x7e,
-	0x1c, 0x7e, 0x90, 0x22, 0xff, 0x4f, 0xdd, 0x73, 0x70, 0xe2, 0x70, 0x86, 0x59, 0xbb, 0xec, 0x6c,
-	0x07, 0xab, 0xc9, 0x78, 0x3d, 0xf6, 0x46, 0x97, 0x2e, 0x6e, 0x15, 0x7b, 0xbc, 0x57, 0xda, 0xda,
-	0x96, 0xad, 0xef, 0x38, 0x0c, 0x28, 0xed, 0xf5, 0x58, 0xa0, 0x5d, 0x47, 0x98, 0x8a, 0x0d, 0xb2,
-	0x71, 0x9b, 0xdb, 0x51, 0xff, 0x16, 0x4e, 0xe3, 0xb0, 0xf9, 0x9a, 0xdc, 0x3d, 0x52, 0xe3, 0xa4,
-	0xfd, 0x35, 0xaf, 0x01, 0xe2, 0x70, 0xbe, 0x88, 0x95, 0xc4, 0x24, 0x65, 0x0f, 0xf6, 0x68, 0x7f,
-	0x9f, 0x56, 0x8b, 0xe5, 0x1b, 0x2c, 0x84, 0x71, 0x1c, 0x7e, 0x52, 0x28, 0x13, 0x25, 0x64, 0xcd,
-	0xf6, 0xda, 0x4e, 0xff, 0xdd, 0x52, 0x7e, 0x67, 0x57, 0xb3, 0xd5, 0xd6, 0xd7, 0x74, 0xd9, 0xa7,
-	0xbf, 0xdc, 0xab, 0x3f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x96, 0xc8, 0x17, 0xd7, 0xf5, 0x04, 0x00,
-	0x00,
+	// 500 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x94, 0xcd, 0x8e, 0xd3, 0x30,
+	0x10, 0xc7, 0x9b, 0x8f, 0xa6, 0x65, 0xb6, 0xdb, 0x2d, 0x16, 0x1f, 0xc1, 0x5c, 0xaa, 0x1c, 0x20,
+	0x08, 0x51, 0x50, 0x91, 0x10, 0x07, 0x4e, 0xcb, 0x87, 0x04, 0x34, 0x9b, 0x28, 0x46, 0x9c, 0xb8,
+	0x78, 0x77, 0xdd, 0xa5, 0xa2, 0x89, 0x23, 0xd7, 0x5b, 0x94, 0x47, 0xe0, 0xd9, 0x78, 0x08, 0x5e,
+	0x05, 0xd9, 0x71, 0x4b, 0x6a, 0x2a, 0xe8, 0xcd, 0x33, 0xf9, 0xff, 0x7f, 0x33, 0x63, 0x4f, 0x0b,
+	0x83, 0x73, 0x56, 0xf3, 0xf2, 0x72, 0x52, 0x09, 0x2e, 0x39, 0xf2, 0xaf, 0x44, 0x75, 0x11, 0xf5,
+	0xa0, 0xfb, 0xb6, 0xa8, 0x64, 0x1d, 0x4d, 0xa1, 0x7f, 0x46, 0x0b, 0xf6, 0xa9, 0xae, 0x18, 0x42,
+	0xe0, 0x97, 0xb4, 0x60, 0xa1, 0x33, 0x76, 0xe2, 0x1b, 0xb9, 0x3e, 0xab, 0x9c, 0xac, 0x2b, 0x16,
+	0xba, 0x4d, 0x4e, 0x9d, 0xa3, 0x5f, 0x3e, 0xb8, 0x24, 0xc1, 0x18, 0xfc, 0x33, 0x23, 0xb1, 0x6d,
+	0xf8, 0x29, 0xf4, 0xd4, 0xb7, 0x8f, 0xac, 0xde, 0x4b, 0x1d, 0x81, 0xf7, 0x8d, 0xd5, 0x1a, 0x3a,
+	0xc8, 0xd5, 0x11, 0x7f, 0x80, 0x81, 0x31, 0x7c, 0xa6, 0xcb, 0x6b, 0x76, 0x98, 0x0b, 0xdd, 0x82,
+	0xee, 0x5a, 0xc9, 0x43, 0x4f, 0xe7, 0x9a, 0x00, 0xff, 0x70, 0xe0, 0x9e, 0x81, 0xbd, 0xe3, 0xe2,
+	0x3b, 0x15, 0x97, 0xe9, 0x7c, 0xbe, 0x62, 0x72, 0xb6, 0x28, 0x16, 0xf2, 0x40, 0x72, 0x08, 0xbd,
+	0x79, 0xe3, 0xd5, 0xec, 0x7e, 0xbe, 0x09, 0xd1, 0x1d, 0x08, 0xb8, 0xc6, 0x85, 0xfe, 0xd8, 0x89,
+	0xfd, 0xdc, 0x44, 0xaa, 0x97, 0xa5, 0x2a, 0x10, 0x76, 0x75, 0xba, 0x09, 0xf0, 0x2b, 0x70, 0xd3,
+	0x0c, 0x0d, 0xc1, 0xe5, 0x95, 0xae, 0x38, 0xc8, 0x5d, 0x5e, 0x1d, 0x3c, 0xc9, 0x29, 0x9c, 0xe8,
+	0xd7, 0x11, 0xb4, 0x5c, 0xd1, 0x0b, 0xb9, 0xe0, 0xe5, 0xde, 0xf6, 0xef, 0x6b, 0xbc, 0x3b, 0xf6,
+	0xe2, 0xa3, 0xe9, 0xd1, 0x44, 0x3d, 0xf0, 0x84, 0x24, 0x93, 0x34, 0x53, 0xb5, 0xf0, 0x17, 0x18,
+	0x2a, 0x46, 0x9a, 0xfd, 0xf3, 0x6e, 0x87, 0x06, 0x61, 0x75, 0xe8, 0xed, 0xe9, 0xd0, 0x6f, 0x77,
+	0x38, 0x86, 0x60, 0xc6, 0xca, 0x2b, 0xf9, 0x55, 0xdd, 0xcb, 0x52, 0x9f, 0x34, 0xd7, 0xcf, 0x4d,
+	0x84, 0xa7, 0xd0, 0xdf, 0x56, 0x36, 0x54, 0x67, 0x0f, 0xd5, 0x6d, 0x51, 0xa7, 0x3f, 0x3d, 0x08,
+	0x4e, 0xf5, 0xd6, 0xa2, 0x87, 0xe0, 0xcf, 0x16, 0x2b, 0x89, 0xcc, 0x5c, 0x7a, 0x6b, 0xf1, 0xb0,
+	0x09, 0x36, 0x9b, 0x1b, 0x75, 0x9e, 0x39, 0x28, 0x86, 0x3e, 0x49, 0x5e, 0x0b, 0x46, 0x25, 0x43,
+	0xc7, 0xdb, 0x4b, 0x50, 0x12, 0xdc, 0xf6, 0x46, 0x1d, 0xf4, 0x00, 0x02, 0x92, 0xbc, 0x11, 0xbc,
+	0xfa, 0x8f, 0xee, 0x11, 0x74, 0x49, 0x32, 0x63, 0xa5, 0x2d, 0x3b, 0xd9, 0x86, 0xcd, 0xe8, 0x51,
+	0x07, 0x3d, 0x51, 0xd2, 0xec, 0x5a, 0xa2, 0xdb, 0x3b, 0xd2, 0xcd, 0xe0, 0x36, 0xf9, 0xb1, 0xea,
+	0x35, 0x67, 0x05, 0x5f, 0x33, 0x34, 0xb2, 0x1d, 0xb6, 0xf8, 0x25, 0x1c, 0x93, 0xa4, 0xbd, 0x02,
+	0xe1, 0x8e, 0xa3, 0xf5, 0xc5, 0x76, 0xbe, 0x00, 0x20, 0x49, 0x9a, 0x11, 0x29, 0x18, 0x2d, 0xd0,
+	0xdd, 0x1d, 0xdb, 0x9f, 0x7d, 0xb0, 0x5c, 0xb1, 0x83, 0x12, 0x18, 0x91, 0xe4, 0xbd, 0x64, 0x82,
+	0x4a, 0x2e, 0x8c, 0x3b, 0xb2, 0xdb, 0xfc, 0xfb, 0xa7, 0x85, 0x6f, 0x6e, 0x35, 0x1b, 0xb6, 0x7a,
+	0x99, 0xf3, 0x40, 0xff, 0xf3, 0x3c, 0xff, 0x1d, 0x00, 0x00, 0xff, 0xff, 0x90, 0xa0, 0x9c, 0x70,
+	0x89, 0x04, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -757,22 +666,21 @@ const _ = grpc.SupportPackageIsVersion4
 type BeyondClient interface {
 	// list all data structures' name & type.
 	List(ctx context.Context, in *Empty, opts ...grpc.CallOption) (Beyond_ListClient, error)
-	// [management rpc]
+	// [sorted map]
 	// create sorted map with given name.
 	SMCreate(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*Empty, error)
 	// drop sorted map with given name.
 	SMDrop(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*Empty, error)
-	// [operation rpc]
 	// get length of given sorted map.
 	SMLen(ctx context.Context, in *SM_Name, opts ...grpc.CallOption) (*SM_Length, error)
 	// put key-value into given sorted map.
-	SMPut(ctx context.Context, in *SM_NameKeyValueReplace, opts ...grpc.CallOption) (*SM_Value, error)
+	SMPut(ctx context.Context, in *SM_NameKeyValue, opts ...grpc.CallOption) (*Empty, error)
 	// remove key from given sorted map.
-	SMRemove(ctx context.Context, in *SM_NameKey, opts ...grpc.CallOption) (*SM_Value, error)
+	SMRemove(ctx context.Context, in *SM_NameKey, opts ...grpc.CallOption) (*Empty, error)
 	SMTransaction(ctx context.Context, in *SM_NameTransaction, opts ...grpc.CallOption) (*Empty, error)
 	// [streaming rpc]
 	SMOPStream(ctx context.Context, opts ...grpc.CallOption) (Beyond_SMOPStreamClient, error)
-	SMIteratorStream(ctx context.Context, in *SM_NameKeyReverseOffsetLimit, opts ...grpc.CallOption) (Beyond_SMIteratorStreamClient, error)
+	SMIteratorStream(ctx context.Context, in *SM_NameKeyForwardOffsetLimit, opts ...grpc.CallOption) (Beyond_SMIteratorStreamClient, error)
 }
 
 type beyondClient struct {
@@ -842,8 +750,8 @@ func (c *beyondClient) SMLen(ctx context.Context, in *SM_Name, opts ...grpc.Call
 	return out, nil
 }
 
-func (c *beyondClient) SMPut(ctx context.Context, in *SM_NameKeyValueReplace, opts ...grpc.CallOption) (*SM_Value, error) {
-	out := new(SM_Value)
+func (c *beyondClient) SMPut(ctx context.Context, in *SM_NameKeyValue, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/grpc.Beyond/SMPut", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -851,8 +759,8 @@ func (c *beyondClient) SMPut(ctx context.Context, in *SM_NameKeyValueReplace, op
 	return out, nil
 }
 
-func (c *beyondClient) SMRemove(ctx context.Context, in *SM_NameKey, opts ...grpc.CallOption) (*SM_Value, error) {
-	out := new(SM_Value)
+func (c *beyondClient) SMRemove(ctx context.Context, in *SM_NameKey, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/grpc.Beyond/SMRemove", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -903,7 +811,7 @@ func (x *beyondSMOPStreamClient) CloseAndRecv() (*Empty, error) {
 	return m, nil
 }
 
-func (c *beyondClient) SMIteratorStream(ctx context.Context, in *SM_NameKeyReverseOffsetLimit, opts ...grpc.CallOption) (Beyond_SMIteratorStreamClient, error) {
+func (c *beyondClient) SMIteratorStream(ctx context.Context, in *SM_NameKeyForwardOffsetLimit, opts ...grpc.CallOption) (Beyond_SMIteratorStreamClient, error) {
 	stream, err := c.cc.NewStream(ctx, &_Beyond_serviceDesc.Streams[2], "/grpc.Beyond/SMIteratorStream", opts...)
 	if err != nil {
 		return nil, err
@@ -939,22 +847,21 @@ func (x *beyondSMIteratorStreamClient) Recv() (*SM_KeyValue, error) {
 type BeyondServer interface {
 	// list all data structures' name & type.
 	List(*Empty, Beyond_ListServer) error
-	// [management rpc]
+	// [sorted map]
 	// create sorted map with given name.
 	SMCreate(context.Context, *SM_Name) (*Empty, error)
 	// drop sorted map with given name.
 	SMDrop(context.Context, *SM_Name) (*Empty, error)
-	// [operation rpc]
 	// get length of given sorted map.
 	SMLen(context.Context, *SM_Name) (*SM_Length, error)
 	// put key-value into given sorted map.
-	SMPut(context.Context, *SM_NameKeyValueReplace) (*SM_Value, error)
+	SMPut(context.Context, *SM_NameKeyValue) (*Empty, error)
 	// remove key from given sorted map.
-	SMRemove(context.Context, *SM_NameKey) (*SM_Value, error)
+	SMRemove(context.Context, *SM_NameKey) (*Empty, error)
 	SMTransaction(context.Context, *SM_NameTransaction) (*Empty, error)
 	// [streaming rpc]
 	SMOPStream(Beyond_SMOPStreamServer) error
-	SMIteratorStream(*SM_NameKeyReverseOffsetLimit, Beyond_SMIteratorStreamServer) error
+	SMIteratorStream(*SM_NameKeyForwardOffsetLimit, Beyond_SMIteratorStreamServer) error
 }
 
 func RegisterBeyondServer(s *grpc.Server, srv BeyondServer) {
@@ -1037,7 +944,7 @@ func _Beyond_SMLen_Handler(srv interface{}, ctx context.Context, dec func(interf
 }
 
 func _Beyond_SMPut_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SM_NameKeyValueReplace)
+	in := new(SM_NameKeyValue)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1049,7 +956,7 @@ func _Beyond_SMPut_Handler(srv interface{}, ctx context.Context, dec func(interf
 		FullMethod: "/grpc.Beyond/SMPut",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(BeyondServer).SMPut(ctx, req.(*SM_NameKeyValueReplace))
+		return srv.(BeyondServer).SMPut(ctx, req.(*SM_NameKeyValue))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1117,7 +1024,7 @@ func (x *beyondSMOPStreamServer) Recv() (*SM_NameOPKeyValue, error) {
 }
 
 func _Beyond_SMIteratorStream_Handler(srv interface{}, stream grpc.ServerStream) error {
-	m := new(SM_NameKeyReverseOffsetLimit)
+	m := new(SM_NameKeyForwardOffsetLimit)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}

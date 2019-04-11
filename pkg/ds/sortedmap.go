@@ -3,17 +3,16 @@ package ds
 import (
 	"beyond/pkg/algo/skiplist"
 	"bytes"
-	"errors"
 	"fmt"
 	"sync"
 )
 
 // operation enum.
 const (
-	//OPPUT operation Put
-	OPPUT byte = iota
-	// OPREMOVE operation Remove
-	OPREMOVE
+	//OPPut operation Put
+	OPPut byte = iota
+	// OPRemove operation Remove
+	OPRemove
 )
 
 /*
@@ -65,53 +64,45 @@ func (s *SortedMap) Len() uint64 {
 	return s.sl.Len()
 }
 
-// Put or replace(if exists) key-value in sorted map.
-// if exists, replace and return previous value. else return nil.
-func (s *SortedMap) Put(key []byte, value []byte) ([]byte, error) {
-	s.rwmux.Lock()
-	defer s.rwmux.Unlock()
-	return s.put(key, value, true)
-}
-
-func (s *SortedMap) put(key []byte, value []byte, replace bool) ([]byte, error) {
+// Put puts key-value in sorted map. replace old value if key exists.
+// return nil if success else error.
+func (s *SortedMap) Put(key []byte, value []byte) error {
 	if key == nil || len(key) == 0 {
-		return nil, errors.New("sorted map put failed, key must not be empty")
-	}
-	oldval := s.sl.Put(&sortedMapEntity{key: key, value: value}, replace)
-	if valEntity, ok := oldval.(*sortedMapEntity); ok {
-		return valEntity.value, nil
-	}
-	return nil, nil
-}
-
-// Remove removes key-value from sorted map by key.
-// if not exists, do nothing and return nil.
-// if exists, remove then return value.
-func (s *SortedMap) Remove(key []byte) ([]byte, error) {
-	if key == nil || len(key) == 0 {
-		return nil, errors.New("sorted map Remove failed, key must not be empty")
+		return fmt.Errorf("sorted map put failed, key must not be empty")
 	}
 	s.rwmux.Lock()
 	defer s.rwmux.Unlock()
-	return s.remove(key)
+	s.put(key, value)
+	return nil 
 }
 
-// remove without lock. so it can be used by transaction.
-func (s *SortedMap) remove(key []byte) ([]byte, error) {
-	val := s.sl.Remove(&sortedMapEntity{key: key})
-	if val == nil {
-		return nil, nil
+// put key-value into skiplist.
+func (s *SortedMap) put(key []byte, value []byte) {
+	s.sl.Put(&sortedMapEntity{key: key, value: value}, true)
+}
+
+// Remove removes key-value from sorted map by key. if key not exists, do nothing.
+// return nil if success else error.
+func (s *SortedMap) Remove(key []byte) error {
+	if key == nil || len(key) == 0 {
+		return fmt.Errorf("sorted map Remove failed, key must not be empty")
 	}
-	return val.(*sortedMapEntity).value, nil
-	// if assertion fail, let it panic, don't hide it. normally, this failing should never happen.
-	// if happen, that means invalid data is inserted from somewhere.
+	s.rwmux.Lock()
+	defer s.rwmux.Unlock()
+	s.remove(key)
+	return nil
+}
+
+// remove key-value from skiplist.
+func (s *SortedMap) remove(key []byte) {
+	s.sl.Remove(&sortedMapEntity{key: key})
 }
 
 // Get returns the value whose key is equal to given key. nil if not exists.
 // edge case: value is nil. (so nil result means either a nil value or not exists).
 func (s *SortedMap) Get(key []byte) ([]byte, error) {
 	if key == nil || len(key) == 0 {
-		return nil, errors.New("sorted map Get failed, key must not be empty")
+		return nil, fmt.Errorf("sorted map Get failed, key must not be empty")
 	}
 	val := s.sl.Iterator(&sortedMapEntity{key: key}, true, 0, 1)()
 	if val == nil {
@@ -124,21 +115,27 @@ func (s *SortedMap) Get(key []byte) ([]byte, error) {
 	return nil, nil
 }
 
-// PRStream put the data in channel into sortedmap.
+// PRStream Put or Remove the data in sortedmap.
 // the sender of channel need to close the channel when no more data.
+// only PUT, REMOVE are supported in PRStream.
+// streaming data natually cannot do CHECK on all items before applying changes.
+// so each operation(PUT or REMOVE) is applied immediately in processing.
+// return nil if all success else error.
+// NOTICE: if error happens in the processing, the error return immediately and following operations are aborted.
+// the already applied changes are not revertable.
 func (s *SortedMap) PRStream(ch chan [3][]byte) error {
 	for okv := range ch {
 		switch op := okv[0][0]; op {
-		case OPPUT:
-			if _, err := s.Put(okv[1], okv[2]); err != nil {
+		case OPPut:
+			if err := s.Put(okv[1], okv[2]); err != nil {
 				return err
 			}
-		case OPREMOVE:
-			if _, err := s.Remove(okv[1]); err != nil {
+		case OPRemove:
+			if err := s.Remove(okv[1]); err != nil {
 				return err
 			}
 		default:
-			return errors.New("unknown operation")
+			return fmt.Errorf("unknown operation")
 		}
 	}
 	return nil
@@ -172,20 +169,32 @@ func (s *SortedMap) Iterator(fromKey []byte, forward bool, offset uint64, limit 
 }
 
 // Transaction of operations. Transaction is executed atomically.
+// return nil if all sucess else error.
+// Notice: operations are checked before applying. so if they contain error, error return immediately and no changes apply.
+// if check suceed, all operations will be applied. transacrtion is ALL DONE or NOTHING DONE.
 func (s *SortedMap) Transaction(ops [][3][]byte) error {
 	if ops == nil || len(ops) == 0 {
-		return errors.New("Transaction ops must not be empty")
+		return fmt.Errorf("Transaction ops must not be empty")
 	}
+	// operations check.
+	for _, op := range ops {
+		opName := op[0][0]
+		if opName != OPPut && opName != OPRemove {
+			return fmt.Errorf("Transaction unknown operation, op: %v, key: %v, value: %v", op[0], op[1], op[2])
+		}
+		if op[1] == nil || len(op[1]) == 0 {
+			return fmt.Errorf("Transaction key must not be empty, op: %v, key: %v, value: %v", op[0], op[1], op[2])
+		}
+	}
+	// apply operations.
 	s.rwmux.Lock()
 	defer s.rwmux.Unlock()
 	for _, op := range ops {
 		switch opName := op[0][0]; opName {
-		case OPPUT:
-			s.put(op[1], op[2], true)
-		case OPREMOVE:
+		case OPPut:
+			s.put(op[1], op[2])
+		case OPRemove:
 			s.remove(op[1])
-		default:
-			return fmt.Errorf("Transaction Unknown operation '%v'", opName)
 		}
 	}
 	return nil

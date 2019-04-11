@@ -14,14 +14,15 @@ type Beyond struct {
 }
 
 var beyondInstance *Beyond
-var once sync.Once
+
+// init beyondInstance.
+func init() {
+	beyondInstance = &Beyond{}
+	beyondInstance.smmap = make(map[string]*ds.SortedMap)
+}
 
 // GetInstance get the singleton of beyond.
 func GetInstance() *Beyond {
-	once.Do(func() {
-		beyondInstance = &Beyond{}
-		beyondInstance.smmap = make(map[string]*ds.SortedMap)
-	})
 	return beyondInstance
 }
 

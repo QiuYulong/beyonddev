@@ -39,7 +39,6 @@ func (g *GRPCService) SMDrop(ctx context.Context, in *pb.SM_Name) (*pb.Empty, er
 
 // SMLen gets length of given sorted map.
 func (g *GRPCService) SMLen(ctx context.Context, in *pb.SM_Name) (*pb.SM_Length, error) {
-	log.Printf("SMLen request received. name='%s'", in.Name)
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "SMLen failed, name must not be empty")
 	}
@@ -52,8 +51,7 @@ func (g *GRPCService) SMLen(ctx context.Context, in *pb.SM_Name) (*pb.SM_Length,
 
 // SMPut puts key-value into given sorted map.
 // edge case: value is nil. (so nil result means either a nil value or not exists).
-func (g *GRPCService) SMPut(ctx context.Context, in *pb.SM_NameKeyValueReplace) (*pb.SM_Value, error) {
-	log.Printf("SMPut request received. name='%s'", in.Name)
+func (g *GRPCService) SMPut(ctx context.Context, in *pb.SM_NameKeyValue) (*pb.Empty, error) {
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "SMPut failed, name must not be empty")
 	}
@@ -80,7 +78,7 @@ func (g *GRPCService) SMPut(ctx context.Context, in *pb.SM_NameKeyValueReplace) 
 
 // SMRemove removes key from given sorted map.
 // edge case: value is nil. (so nil result means either a nil value or not exists).
-func (g *GRPCService) SMRemove(ctx context.Context, in *pb.SM_NameKey) (*pb.SM_Value, error) {
+func (g *GRPCService) SMRemove(ctx context.Context, in *pb.SM_NameKey) (*pb.Empty, error) {
 	log.Printf("SMRemove request received. name='%s'", in.Name)
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "SMRemove failed, name must not be empty")
@@ -99,8 +97,33 @@ func (g *GRPCService) SMRemove(ctx context.Context, in *pb.SM_NameKey) (*pb.SM_V
 	return &pb.SM_Value{Value: value}, nil
 }
 
+// SMTransaction do transaction of operations atomically.
+func (g *GRPCService) SMTransaction(ctx context.Context, in *pb.SM_NameTransaction) (*pb.Empty, error) {
+	log.Printf("SMTransaction request received. name='%s'", in.Name)
+	if in.Name == "" {
+		return nil, status.Errorf(codes.InvalidArgument, "SMTransaction failed, name must not be empty")
+	}
+	sm, ok := beyond.GetInstance().smmap[in.Name]
+	if !ok {
+		return nil, status.Errorf(codes.InvalidArgument, "SMTransaction failed, sorted map '%s' not found", in.Name)
+	}
+	ops := make([][3][]byte, 0, len(in.Op))
+	for _, smOp := range in.Op {
+		ops = append(ops, [3][]byte{
+			smOp.Op,
+			smOp.Key,
+			smOp.Value,
+		})
+	}
+	err := sm.Transaction(ops)
+	if err != nil {
+		return nil, status.Errorf(codes.Unknown, "SMTransaction failed, %v", err)
+	}
+	return &pb.SM_Empty{}, nil
+}
+
 // SMOPStream put a stream of key-value into sorted map.
-func (g *GRPCService) SMOPStream(stream Pooh_SMOPStreamServer) error {
+func (g *GRPCService) SMOPStream(stream pb.Beyond_SMOPStreamServer) error {
 	for {
 		nokv, err := stream.Recv()
 		if err == io.EOF {
@@ -145,7 +168,7 @@ func (g *GRPCService) SMOPStream(stream Pooh_SMOPStreamServer) error {
 }
 
 // SMIteratorStream returns a stream of key-value with the ceil conditions.
-func (g *GRPCService) SMIteratorStream(in *pb.SM_NameKeyReverseOffsetLimit, stream Pooh_SMIteratorStreamServer) error {
+func (g *GRPCService) SMIteratorStream(in *pb.SM_NameKeyForwardOffsetLimit, stream pb.Beyond_SMIteratorStreamServer) error {
 	log.Printf("SMIterator request received. name='%s', key='%v', reverse='%v', offset='%v', length='%v'", in.Name, in.Key, in.Reverse, in.Offset, in.Limit)
 	if in.Name == "" {
 		return status.Errorf(codes.InvalidArgument, "SMIterator failed, name must not be empty")
@@ -171,29 +194,4 @@ func (g *GRPCService) SMIteratorStream(in *pb.SM_NameKeyReverseOffsetLimit, stre
 		}
 	}
 	return nil
-}
-
-// SMTransaction do transaction of operations atomically.
-func (g *GRPCService) SMTransaction(ctx context.Context, in *pb.SM_NameTransaction) (*pb.SM_Empty, error) {
-	log.Printf("SMTransaction request received. name='%s'", in.Name)
-	if in.Name == "" {
-		return nil, status.Errorf(codes.InvalidArgument, "SMTransaction failed, name must not be empty")
-	}
-	sm, ok := beyond.GetInstance().smmap[in.Name]
-	if !ok {
-		return nil, status.Errorf(codes.InvalidArgument, "SMTransaction failed, sorted map '%s' not found", in.Name)
-	}
-	ops := make([][3][]byte, 0, len(in.Op))
-	for _, smOp := range in.Op {
-		ops = append(ops, [3][]byte{
-			smOp.Op,
-			smOp.Key,
-			smOp.Value,
-		})
-	}
-	err := sm.Transaction(ops)
-	if err != nil {
-		return nil, status.Errorf(codes.Unknown, "SMTransaction failed, %v", err)
-	}
-	return &pb.SM_Empty{}, nil
 }
