@@ -16,7 +16,7 @@ func (g *GRPCService) SMCreate(ctx context.Context, in *pb.SM_Name) (*pb.Empty, 
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "CreateSM failed, name must not be empty")
 	}
-	err := beyond.GetInstance().CreateSortedMap(in.Name)
+	err := beyond.GetBeyond().CreateSortedMap(in.Name)
 	if err != nil {
 		return nil, err
 	}
@@ -29,7 +29,7 @@ func (g *GRPCService) SMDrop(ctx context.Context, in *pb.SM_Name) (*pb.Empty, er
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "DropSM failed, name must not be empty")
 	}
-	err := beyond.GetInstance().DropSortedMap(in.Name)
+	err := beyond.GetBeyond().DropSortedMap(in.Name)
 	if err != nil {
 		return nil, status.Errorf(codes.Unknown, err.Error())
 	}
@@ -42,7 +42,7 @@ func (g *GRPCService) SMLen(ctx context.Context, in *pb.SM_Name) (*pb.SM_Length,
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "SMLen failed, name must not be empty")
 	}
-	sm, err := beyond.GetInstance().GetSortedMap(in.Name)
+	sm, err := beyond.GetBeyond().GetSortedMap(in.Name)
 	if err != nil {
 		return nil, status.Errorf(codes.Unknown, err.Error())
 	}
@@ -58,7 +58,7 @@ func (g *GRPCService) SMPut(ctx context.Context, in *pb.SM_NameKeyValue) (*pb.Em
 	if in.Key == nil || len(in.Key) == 0 {
 		return nil, status.Errorf(codes.InvalidArgument, "SMPut failed, key must not be empty")
 	}
-	sm, ok := beyond.GetInstance().smmap[in.Name]
+	sm, ok := beyond.GetBeyond().smmap[in.Name]
 	if !ok {
 		return nil, status.Errorf(codes.InvalidArgument, "SMPut failed, sorted map '%s' not found", in.Name)
 	}
@@ -86,7 +86,7 @@ func (g *GRPCService) SMRemove(ctx context.Context, in *pb.SM_NameKey) (*pb.Empt
 	if in.Key == nil || len(in.Key) == 0 {
 		return nil, status.Errorf(codes.InvalidArgument, "SMRemove failed, key must not be empty")
 	}
-	sm, ok := beyond.GetInstance().smmap[in.Name]
+	sm, ok := beyond.GetBeyond().smmap[in.Name]
 	if !ok {
 		return nil, status.Errorf(codes.InvalidArgument, "SMRemove failed, sorted map '%s' not found", in.Name)
 	}
@@ -103,7 +103,7 @@ func (g *GRPCService) SMTransaction(ctx context.Context, in *pb.SM_NameTransacti
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "SMTransaction failed, name must not be empty")
 	}
-	sm, ok := beyond.GetInstance().smmap[in.Name]
+	sm, ok := beyond.GetBeyond().smmap[in.Name]
 	if !ok {
 		return nil, status.Errorf(codes.InvalidArgument, "SMTransaction failed, sorted map '%s' not found", in.Name)
 	}
@@ -141,7 +141,7 @@ func (g *GRPCService) SMOPStream(stream pb.Beyond_SMOPStreamServer) error {
 		if nokv.Key == nil || len(nokv.Key) == 0 {
 			return status.Errorf(codes.InvalidArgument, "SMOPStream failed, key must not be empty")
 		}
-		sm, ok := beyond.GetInstance().smmap[nokv.Name]
+		sm, ok := beyond.GetBeyond().smmap[nokv.Name]
 		if !ok {
 			return status.Errorf(codes.InvalidArgument, "SMOPStream failed, sorted map '%s' not found", nokv.Name)
 		}
@@ -176,7 +176,7 @@ func (g *GRPCService) SMIteratorStream(in *pb.SM_NameKeyForwardOffsetLimit, stre
 	if in.Key == nil {
 		return status.Errorf(codes.InvalidArgument, "SMIterator failed, key must not be empty")
 	}
-	sm, ok := beyond.GetInstance().smmap[in.Name]
+	sm, ok := beyond.GetBeyond().smmap[in.Name]
 	if !ok {
 		return status.Errorf(codes.InvalidArgument, "SMIterator failed, sorted map '%s' not found", in.Name)
 	}

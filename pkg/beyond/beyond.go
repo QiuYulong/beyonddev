@@ -13,17 +13,23 @@ type Beyond struct {
 	mutex sync.Mutex
 }
 
-var beyondInstance *Beyond
+var defaultBeyond *Beyond
 
 // init beyondInstance.
 func init() {
-	beyondInstance = &Beyond{}
-	beyondInstance.smmap = make(map[string]*ds.SortedMap)
+	defaultBeyond = NewBeyond()
 }
 
-// GetInstance get the singleton of beyond.
-func GetInstance() *Beyond {
-	return beyondInstance
+// GetBeyond get the singleton of beyond.
+func GetBeyond() *Beyond {
+	return defaultBeyond
+}
+
+// NewBeyond returns new instance of Beyond.
+func NewBeyond() *Beyond {
+	return &Beyond{
+		smmap: make(map[string]*ds.SortedMap),
+	}
 }
 
 // GetStatus returns status of Beyond.
