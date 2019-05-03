@@ -3,26 +3,27 @@ package grpcservice
 // gRPC server.
 
 import (
-	"google.golang.org/grpc"
+	pb "beyond/grpc"
 	"log"
 	"net"
 	"os"
 	"os/signal"
-	pb "beyond/grpc"
 	"sync"
+
+	"google.golang.org/grpc"
 )
 
 // GRPCService defines the GPRC Server.
 type GRPCService struct {
 	address string
-	server *grpc.Server
+	server  *grpc.Server
 }
 
 // NewGRPCService create GPRCServer instance.
 func NewGRPCService(address string) *GRPCService {
 	return &GRPCService{
 		address: address,
-		server: grpc.NewServer(),
+		server:  grpc.NewServer(),
 	}
 }
 
@@ -37,12 +38,12 @@ func (g *GRPCService) Run(wg *sync.WaitGroup) {
 	}
 	pb.RegisterBeyondServer(g.server, g)
 	log.Printf("start grpc service on %s", g.address)
-	go func(){
-		if err := g.server.Server(lis); err != nil {
+	go func() {
+		if err := g.server.Serve(lis); err != nil {
 			log.Fatalf("grpc server failed to serve: %v", err)
 		}
 	}()
-	sig := <- sigs
+	sig := <-sigs
 	log.Printf("signal %v received, gracefully shutting down grpc service", sig)
 	g.server.GracefulStop()
 	wg.Done()

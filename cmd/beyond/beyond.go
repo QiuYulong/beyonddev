@@ -5,12 +5,9 @@ import (
 	"beyond/pkg/restapiservice"
 	"flag"
 	"log"
-	"os"
-	"os/signal"
+	_ "net/http/pprof"
 	"strconv"
 	"sync"
-	"syscall"
-	_ "net/http/pprof"
 )
 
 func main() {
@@ -23,19 +20,19 @@ func main() {
 	log.SetFlags(log.Ldate | log.Ltime | log.Lshortfile)
 
 	log.Println("hello, beyond stars")
-	
+
 	var wg sync.WaitGroup
 
 	// start grpc service.
 	wg.Add(1)
-	gs := grpcserver.NewGRPCService(":"+strconv.Itoa(*grpcport))
+	gs := grpcservice.NewGRPCService(":" + strconv.Itoa(*grpcport))
 	go gs.Run(&wg)
-	
+
 	// start rest server.
 	wg.Add(1)
-	rs := restapiserver.NewRESTAPIService(":"+strconv.Itoa(*restport))
+	rs := restapiservice.NewRESTAPIService(":" + strconv.Itoa(*restport))
 	go rs.Run(&wg)
-	
+
 	// wait grpc and restapi service exit.
 	wg.Wait()
 }

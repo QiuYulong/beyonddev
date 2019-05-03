@@ -11,7 +11,7 @@ import (
 
 // List list all data structures' name & type in beyond.
 func (g *GRPCService) List(in *pb.Empty, stream pb.Beyond_ListServer) error {
-	ds := beyond.GetInstance().List()
+	ds := beyond.GetBeyond().List()
 	for _, nametype := range ds {
 		err := stream.Send(&pb.NameType{
 			Name: nametype[0],

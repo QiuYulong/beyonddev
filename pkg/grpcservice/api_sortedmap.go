@@ -1,14 +1,15 @@
 package grpcservice
 
 import (
+	pb "beyond/grpc"
 	"beyond/pkg/beyond"
 	"beyond/pkg/ds"
 	"context"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 	"io"
 	"log"
-	pb "beyond/grpc"
+
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // SMCreate creates sorted map with given name.
@@ -58,22 +59,16 @@ func (g *GRPCService) SMPut(ctx context.Context, in *pb.SM_NameKeyValue) (*pb.Em
 	if in.Key == nil || len(in.Key) == 0 {
 		return nil, status.Errorf(codes.InvalidArgument, "SMPut failed, key must not be empty")
 	}
-	sm, ok := beyond.GetBeyond().smmap[in.Name]
-	if !ok {
+	sm, err := beyond.GetBeyond().GetSortedMap(in.Name)
+	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "SMPut failed, sorted map '%s' not found", in.Name)
 	}
 	// sorted map Put.
-	var value []byte
-	var err error
-	if in.Replace {
-		value, err = sm.Put(in.Key, in.Value)
-	} else {
-		value, err = sm.PutIfAbsent(in.Key, in.Value)
-	}
+	err = sm.Put(in.Key, in.Value)
 	if err != nil {
 		return nil, status.Errorf(codes.Unknown, "SMPut failed, %s", err.Error())
 	}
-	return &pb.SM_Value{Value: value}, nil
+	return &pb.Empty{}, nil
 }
 
 // SMRemove removes key from given sorted map.
@@ -86,15 +81,15 @@ func (g *GRPCService) SMRemove(ctx context.Context, in *pb.SM_NameKey) (*pb.Empt
 	if in.Key == nil || len(in.Key) == 0 {
 		return nil, status.Errorf(codes.InvalidArgument, "SMRemove failed, key must not be empty")
 	}
-	sm, ok := beyond.GetBeyond().smmap[in.Name]
-	if !ok {
+	sm, err := beyond.GetBeyond().GetSortedMap(in.Name)
+	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "SMRemove failed, sorted map '%s' not found", in.Name)
 	}
-	value, err := sm.Remove(in.Key)
+	err = sm.Remove(in.Key)
 	if err != nil {
 		return nil, status.Errorf(codes.Unknown, "SMRemove failed, %s", err.Error())
 	}
-	return &pb.SM_Value{Value: value}, nil
+	return &pb.Empty{}, nil
 }
 
 // SMTransaction do transaction of operations atomically.
@@ -103,8 +98,8 @@ func (g *GRPCService) SMTransaction(ctx context.Context, in *pb.SM_NameTransacti
 	if in.Name == "" {
 		return nil, status.Errorf(codes.InvalidArgument, "SMTransaction failed, name must not be empty")
 	}
-	sm, ok := beyond.GetBeyond().smmap[in.Name]
-	if !ok {
+	sm, err := beyond.GetBeyond().GetSortedMap(in.Name)
+	if err != nil {
 		return nil, status.Errorf(codes.InvalidArgument, "SMTransaction failed, sorted map '%s' not found", in.Name)
 	}
 	ops := make([][3][]byte, 0, len(in.Op))
@@ -115,11 +110,11 @@ func (g *GRPCService) SMTransaction(ctx context.Context, in *pb.SM_NameTransacti
 			smOp.Value,
 		})
 	}
-	err := sm.Transaction(ops)
+	err = sm.Transaction(ops)
 	if err != nil {
 		return nil, status.Errorf(codes.Unknown, "SMTransaction failed, %v", err)
 	}
-	return &pb.SM_Empty{}, nil
+	return &pb.Empty{}, nil
 }
 
 // SMOPStream put a stream of key-value into sorted map.
@@ -127,7 +122,7 @@ func (g *GRPCService) SMOPStream(stream pb.Beyond_SMOPStreamServer) error {
 	for {
 		nokv, err := stream.Recv()
 		if err == io.EOF {
-			return stream.SendAndClose(&pb.SM_Empty{})
+			return stream.SendAndClose(&pb.Empty{})
 		}
 		if err != nil {
 			return status.Errorf(codes.Unknown, "SMOPStream failed to receive from client, %v", err)
@@ -141,23 +136,18 @@ func (g *GRPCService) SMOPStream(stream pb.Beyond_SMOPStreamServer) error {
 		if nokv.Key == nil || len(nokv.Key) == 0 {
 			return status.Errorf(codes.InvalidArgument, "SMOPStream failed, key must not be empty")
 		}
-		sm, ok := beyond.GetBeyond().smmap[nokv.Name]
-		if !ok {
+		sm, err := beyond.GetBeyond().GetSortedMap(nokv.Name)
+		if err != nil {
 			return status.Errorf(codes.InvalidArgument, "SMOPStream failed, sorted map '%s' not found", nokv.Name)
 		}
 		switch opName := nokv.Op[0]; opName {
-		case ds.OPPUT:
-			_, err = sm.Put(nokv.Key, nokv.Value)
+		case ds.OPPut:
+			err = sm.Put(nokv.Key, nokv.Value)
 			if err != nil {
 				return status.Errorf(codes.Unknown, "SMOPStream failed, '%v'", err)
 			}
-		case ds.OPPUTIFABSENT:
-			_, err = sm.PutIfAbsent(nokv.Key, nokv.Value)
-			if err != nil {
-				return status.Errorf(codes.Unknown, "SMOPStream failed, '%v'", err)
-			}
-		case ds.OPREMOVE:
-			_, err = sm.Remove(nokv.Key)
+		case ds.OPRemove:
+			err = sm.Remove(nokv.Key)
 			if err != nil {
 				return status.Errorf(codes.Unknown, "SMOPStream failed, '%v'", err)
 			}
@@ -169,18 +159,18 @@ func (g *GRPCService) SMOPStream(stream pb.Beyond_SMOPStreamServer) error {
 
 // SMIteratorStream returns a stream of key-value with the ceil conditions.
 func (g *GRPCService) SMIteratorStream(in *pb.SM_NameKeyForwardOffsetLimit, stream pb.Beyond_SMIteratorStreamServer) error {
-	log.Printf("SMIterator request received. name='%s', key='%v', reverse='%v', offset='%v', length='%v'", in.Name, in.Key, in.Reverse, in.Offset, in.Limit)
+	log.Printf("SMIterator request received. name='%s', key='%v', reverse='%v', offset='%v', length='%v'", in.Name, in.Key, in.Forward, in.Offset, in.Limit)
 	if in.Name == "" {
 		return status.Errorf(codes.InvalidArgument, "SMIterator failed, name must not be empty")
 	}
 	if in.Key == nil {
 		return status.Errorf(codes.InvalidArgument, "SMIterator failed, key must not be empty")
 	}
-	sm, ok := beyond.GetBeyond().smmap[in.Name]
-	if !ok {
+	sm, err := beyond.GetBeyond().GetSortedMap(in.Name)
+	if err != nil {
 		return status.Errorf(codes.InvalidArgument, "SMIterator failed, sorted map '%s' not found", in.Name)
 	}
-	it, err := sm.Iterator(in.Key, in.Reverse, in.Offset, in.Limit)
+	it, err := sm.Iterator(in.Key, in.Forward, in.Offset, in.Limit)
 	if err != nil {
 		return status.Errorf(codes.Unknown, "SMIterator failed to get iterator, %v", err)
 	}
