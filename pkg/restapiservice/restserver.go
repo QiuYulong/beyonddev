@@ -30,7 +30,7 @@ func (r *RESTAPIService) Run(wg *sync.WaitGroup) {
 
 	srv := &http.Server{Addr: r.address} // nil Handler will use DefaultServeMux.
 	log.Printf("start restapi service on %s", r.address)
-	go func(){
+	go func() {
 		// register handler to DefaultServeMux.
 		http.HandleFunc("/", defaultHandler)
 		http.HandleFunc("/status", statusHandler)
@@ -39,7 +39,7 @@ func (r *RESTAPIService) Run(wg *sync.WaitGroup) {
 			log.Fatalf("restapi service ListenAndServer failed: %v", err)
 		}
 	}()
-	sig := <- sigs
+	sig := <-sigs
 	log.Printf("signal %v received, shutting down restapi service", sig)
 	if err := srv.Shutdown(context.Background()); err != nil {
 		// error from closing listeners, or context timeout.

@@ -73,7 +73,7 @@ func (s *SortedMap) Put(key []byte, value []byte) error {
 	s.rwmux.Lock()
 	defer s.rwmux.Unlock()
 	s.put(key, value)
-	return nil 
+	return nil
 }
 
 // put key-value into skiplist.

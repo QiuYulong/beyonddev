@@ -1,12 +1,12 @@
 package grpcservice
 
 import (
+	pb "beyond/grpc"
 	"beyond/pkg/beyond"
 	"fmt"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 	"log"
-	pb "beyond/grpc"
 )
 
 // List list all data structures' name & type in beyond.
